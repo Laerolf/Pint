@@ -1,0 +1,20 @@
+{
+  "customers": [
+    {
+      "id": "JP8G3TBVEMCJ2D03BFYPEREQYR",
+      "created_at": "2026-08-28T09:39:32.129Z",
+      "updated_at": "2026-08-28T09:39:32Z",
+      "given_name": "John",
+      "family_name": "Osbourne",
+      "nickname": "Ozzy",
+      "email_address": "ozzy@in.heaven",
+      "note": "Prince of Darkness",
+      "preferences": {
+        "email_unsubscribed": false
+      },
+      "creation_source": "THIRD_PARTY",
+      "birthday": "1498-12-03",
+      "version": 0
+    }
+  ]
+}

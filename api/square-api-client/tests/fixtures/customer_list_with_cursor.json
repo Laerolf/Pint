@@ -1,0 +1,20 @@
+{
+  "customers": [
+    {
+      "id": "MZGB9YJ2PNAR28ZAS31CB43TBC",
+      "created_at": "2026-08-29T22:41:40.979Z",
+      "updated_at": "2026-08-29T22:41:40Z",
+      "given_name": "Henry",
+      "family_name": "Jekyll",
+      "nickname": "The Good Doctor",
+      "email_address": "henry.jekyll@good.doctor",
+      "preferences": {
+        "email_unsubscribed": false
+      },
+      "creation_source": "THIRD_PARTY",
+      "birthday": "1850-11-13",
+      "version": 0
+    }
+  ],
+  "cursor": "faababbeeafeeet99aU9t13RHhnzRjFrFlTCOuT5TVUBoGfK66j8BL9Pv0f0usDD7bBJpnrIo0X2AGS762DlEXZ4RcZ4hzJ0xsvT9hGMVgi1EW3c1cBTtoqOWqkfsM2mAc0XIfLpDx1B8LUoY1XwTAhTjjjywdMlaWTDcMfjxKn1rrx1Z9vwQBlcFnHXLyxvYM336eHYmg5DYhTkf8hX3VgMGz8yzT2TdROAV1xEzzsmQT3Gg56BqL8pgUqZsCjokuOqKDZi2TSQcB2MMye8TsHFlX3OjGjHPidlSuRmi50p3jhIrW38zajZcyP8BgaQsb8v6KRw38pnIEPWVOdsoWHhiMhijEFUJg3ak9pzvP2CKtSdtp6aBnHPGHYMKq1iAmrnOCruLYC9fpMBaDbjJEI2zk5212eqIz7AkicZGVzg5zKQ9gvb5o7HZmitrlv6ySnDgyjmedBVUPkvNPTSK3Rart5e6nSIZHtQUbztyHxzXVvKculAMskboONjYIE"
+}

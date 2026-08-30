@@ -1,0 +1,9 @@
+# IDE
+.zed/
+
+# ENVIRONMENT VARIABLES
+.env*
+!.env.example
+
+# BUILDS
+**/target
