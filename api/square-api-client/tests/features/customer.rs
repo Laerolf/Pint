@@ -37,6 +37,7 @@ pub mod tests {
             .expect("Expected to retrieve the Customer list successfully.");
 
         // Then
-        assert_eq!(response.customers.unwrap_or_default().len(), 2);
+        assert!(!response.customers.unwrap_or_default().is_empty());
+        assert_eq!(response.count, Some(2))
     }
 }

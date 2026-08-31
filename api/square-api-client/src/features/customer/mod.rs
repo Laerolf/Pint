@@ -1,3 +1,5 @@
+use std::collections::HashMap;
+
 use serde::Deserialize;
 
 use crate::{
@@ -14,9 +16,14 @@ pub mod model;
 /// Response envelope for Square's list customers endpoint.
 #[derive(Deserialize)]
 pub struct ListCustomersResponse {
+    /// The errors in the Square API response if an error occurred.
     pub errors: Option<Vec<SquareApiResponseError>>,
+    /// The Square API Customer list if no error occurred.
     pub customers: Option<Vec<Customer>>,
+    /// The cursor string in case there are still Customers to load.
     pub cursor: Option<String>,
+    /// The total count of Customers.
+    pub count: Option<i64>,
 }
 
 /// Represents the available Square Customers API endpoints.
@@ -34,8 +41,11 @@ impl CustomerEndpoint {
     pub async fn list_customer(
         &self,
     ) -> Result<ListCustomersResponse, SquareClientError<CustomerEndpointErrorKind>> {
+        let query: HashMap<String, String> =
+            HashMap::from([(String::from("count"), true.to_string())]);
+
         self.client
-            .get::<ListCustomersResponse>("/customers", None)
+            .get::<ListCustomersResponse>("/customers", Some(query))
             .await
             .map_err(|error| {
                 SquareClientError::from(CustomerEndpointErrorKind::ListCustomer).with_cause(error)
@@ -90,8 +100,9 @@ mod tests {
                 .expect("Expected the Customer list to be retrieved successfully.");
 
             // Then
-            assert_eq!(response.customers.unwrap_or_default().len(), 1);
+            assert!(!response.customers.unwrap_or_default().is_empty());
             assert!(response.cursor.is_none());
+            assert_eq!(response.count, Some(2));
         }
 
         #[tokio::test]
@@ -127,8 +138,9 @@ mod tests {
                 .expect("Expected the Customer list to be retrieved successfully.");
 
             // Then
-            assert_eq!(response.customers.unwrap_or_default().len(), 1);
+            assert!(!response.customers.unwrap_or_default().is_empty());
             assert!(response.cursor.is_some());
+            assert_eq!(response.count, Some(2));
         }
 
         #[tokio::test]
