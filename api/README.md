@@ -7,6 +7,7 @@ The api is the backend of the [TAO](../README.md) project.
 ## Setup steps
 ### 1. Install dependencies
 ```bash
+cargo install cargo-llvm-cov sea-orm-cli
 cargo install
 ```
 

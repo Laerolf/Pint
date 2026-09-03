@@ -2,14 +2,14 @@
 name = "square-api-client"
 version = "0.1.0"
 edition = "2024"
+publish = false
 
 [dependencies]
 reqwest = { version = "0.13.4", features = ["json", "query"] }
 serde = { workspace = true }
 
 [dev-dependencies]
-cargo-llvm-cov = { workspace = true }
 dotenvy = { workspace = true }
 serde_json = "1.0.151"
-tokio = { version = "1.53.1", features = ["macros"] }
+tokio = { workspace = true }
 wiremock = "0.6.5"

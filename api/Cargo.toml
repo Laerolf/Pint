@@ -4,9 +4,18 @@ version = "0.1.0"
 edition = "2024"
 
 [workspace]
-members = [".", "square-api-client"]
+members = [".", "square-api-client", "migration", "domain", "entity"]
 
 [workspace.dependencies]
-cargo-llvm-cov = "0.9.0"
 dotenvy = "0.15.7"
+sea-orm = { version = "^2.0", features = ["sqlx-postgres", "runtime-tokio-rustls", "macros", "mock"] }
 serde = { version = "1.0.229", features = ["derive"] }
+tokio = { version = "1.53.1", features = ["macros"] }
+
+[dependencies]
+axum = { version = "0.8.9", features = ["macros"] }
+dotenvy = { workspace = true }
+migration = { path = "migration" }
+sea-orm = { workspace = true }
+tokio = { workspace = true }
+tower-http = { version = "0.7.1", features = ["cors"] }
