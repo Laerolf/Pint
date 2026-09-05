@@ -1,0 +1,10 @@
+[package]
+name = "infrastructure"
+version = "0.1.0"
+edition = "2024"
+
+[dependencies]
+async-trait = { workspace = true }
+domain = { path = "../domain" }
+entity = { path = "../entity" }
+sea-orm = { workspace = true }

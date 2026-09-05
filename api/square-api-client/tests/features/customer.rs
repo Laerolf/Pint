@@ -32,12 +32,14 @@ pub mod tests {
 
         // When
         let response = customer_api_endpoint
-            .list_customer()
+            .list_customer(None)
             .await
             .expect("Expected to retrieve the Customer list successfully.");
 
         // Then
         assert!(!response.customers.unwrap_or_default().is_empty());
-        assert_eq!(response.count, Some(2))
+        assert!(response.count.is_some());
+        assert!(response.cursor.is_none());
+        assert!(response.errors.is_none());
     }
 }

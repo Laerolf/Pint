@@ -2,7 +2,7 @@ use serde::Deserialize;
 
 /// A Square API Error category.
 /// * [Square API: ErrorCategory](https://developer.squareup.com/reference/square/objects/ErrorCategory)
-#[derive(Deserialize)]
+#[derive(Deserialize, Clone)]
 pub enum SquareApiErrorCategory {
     /// An error occurred with the Connect API itself.
     #[serde(rename = "API_ERROR")]
@@ -39,7 +39,7 @@ pub enum SquareApiErrorCategory {
 
 /// A Square API Error.
 /// * [Square API: Error object properties](https://developer.squareup.com/docs/build-basics/general-considerations/handling-errors#error-object-properties)
-#[derive(Deserialize)]
+#[derive(Deserialize, Clone)]
 pub struct SquareApiResponseError {
     /// A high-level classification of the error.
     pub category: SquareApiErrorCategory,

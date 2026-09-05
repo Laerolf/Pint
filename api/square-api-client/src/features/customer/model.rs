@@ -2,7 +2,7 @@ use serde::Deserialize;
 
 /// Represents a Customer in the Square API.
 /// * [Square API Reference](https://developer.squareup.com/reference/square_2026-08-19/objects/Customer)
-#[derive(Deserialize)]
+#[derive(Deserialize, Clone)]
 pub struct Customer {
     ///A unique Square-assigned ID for the customer profile.
     pub id: String,

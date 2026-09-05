@@ -4,18 +4,27 @@ version = "0.1.0"
 edition = "2024"
 
 [workspace]
-members = [".", "square-api-client", "migration", "domain", "entity"]
+members = [".", "square-api-client", "migration", "domain", "entity", "infrastructure"]
 
 [workspace.dependencies]
+async-trait = "0.1.92"
+chrono = "0.4.45"
 dotenvy = "0.15.7"
+reqwest = { version = "0.13.4", features = ["json", "query"] }
 sea-orm = { version = "^2.0", features = ["sqlx-postgres", "runtime-tokio-rustls", "macros", "mock"] }
 serde = { version = "1.0.229", features = ["derive"] }
 tokio = { version = "1.53.1", features = ["macros"] }
 
 [dependencies]
 axum = { version = "0.8.9", features = ["macros"] }
+domain = { version = "0.1.0", path = "domain" }
 dotenvy = { workspace = true }
+chrono = { workspace = true }
+entity = { version = "0.1.0", path = "entity" }
+infrastructure = { path = "infrastructure" }
 migration = { path = "migration" }
+reqwest = { workspace = true }
 sea-orm = { workspace = true }
+square-api-client = { path = "square-api-client" }
 tokio = { workspace = true }
 tower-http = { version = "0.7.1", features = ["cors"] }

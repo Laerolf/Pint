@@ -85,7 +85,7 @@ mod tests {
             use std::io::{Error, ErrorKind};
 
             use crate::{
-                features::error::{CustomerCreationErrorKind, CustomerErrorKind},
+                features::customer::error::{CustomerCreationErrorKind, CustomerErrorKind},
                 shared::error::DomainError,
             };
 
@@ -119,7 +119,7 @@ mod tests {
             fn test_string_format() {
                 // Given
                 let expected_setup_error_message =
-                    "[error.domain.customer.new] Failed to create a new Customer.";
+                    "[error.domain.customer.new.invalidSource] The provided Source is invalid.";
 
                 // When
                 let setup_error = DomainError::from(CustomerErrorKind::New(
@@ -144,7 +144,7 @@ mod tests {
                 let debug_output = format!("{:?}", error);
 
                 // Then
-                assert!(debug_output.contains("error.client.getRequest"));
+                assert!(debug_output.contains("error.domain.customer.new.invalidSource"));
                 assert!(debug_output.contains("boom"));
                 assert!(debug_output.contains("\"status\""));
                 assert!(debug_output.contains("\"429\""));

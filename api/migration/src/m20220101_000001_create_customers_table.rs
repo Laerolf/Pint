@@ -11,6 +11,8 @@ enum Customers {
     DateOfBirth,
     Source,
     SourceId,
+    CreatedAt,
+    LastUpdatedAt,
 }
 
 #[derive(DeriveMigrationName)]
@@ -32,6 +34,8 @@ impl MigrationTrait for Migration {
                     .col(date_null(Customers::DateOfBirth))
                     .col(string_null(Customers::Source))
                     .col(string_null(Customers::SourceId))
+                    .col(date(Customers::CreatedAt))
+                    .col(date_null(Customers::LastUpdatedAt))
                     .to_owned(),
             )
             .await?;

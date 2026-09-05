@@ -14,7 +14,7 @@ pub mod error;
 pub mod model;
 
 /// Response envelope for Square's list customers endpoint.
-#[derive(Deserialize)]
+#[derive(Deserialize, Clone)]
 pub struct ListCustomersResponse {
     /// The errors in the Square API response if an error occurred.
     pub errors: Option<Vec<SquareApiResponseError>>,
@@ -40,9 +40,14 @@ impl CustomerEndpoint {
     /// Retrieves a list of all existing Customers in the Square API.
     pub async fn list_customer(
         &self,
+        cursor: Option<String>,
     ) -> Result<ListCustomersResponse, SquareClientError<CustomerEndpointErrorKind>> {
-        let query: HashMap<String, String> =
+        let mut query: HashMap<String, String> =
             HashMap::from([(String::from("count"), true.to_string())]);
+
+        if let Some(cursor) = cursor {
+            query.insert(String::from("cursor"), cursor);
+        }
 
         self.client
             .get::<ListCustomersResponse>("/customers", Some(query))
@@ -95,7 +100,7 @@ mod tests {
 
             // When
             let response = CustomerEndpoint::new(client)
-                .list_customer()
+                .list_customer(None)
                 .await
                 .expect("Expected the Customer list to be retrieved successfully.");
 
@@ -133,7 +138,7 @@ mod tests {
 
             // When
             let response = CustomerEndpoint::new(client)
-                .list_customer()
+                .list_customer(None)
                 .await
                 .expect("Expected the Customer list to be retrieved successfully.");
 
@@ -168,7 +173,7 @@ mod tests {
             .expect("Expected the test Square API client creation to resolve.");
 
             // When
-            let response = CustomerEndpoint::new(client).list_customer().await;
+            let response = CustomerEndpoint::new(client).list_customer(None).await;
 
             // Then
             assert!(response.is_err());
