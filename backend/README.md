@@ -1,5 +1,5 @@
-# api
-The api is the backend of the [TAO](../README.md) project.
+# backend
+The the backend of the [TAO](../README.md) project.
 
 ## Structure
 - [square-api-client](./square-api-client/README.md): The API client used to deal with the Square API
