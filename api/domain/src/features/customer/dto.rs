@@ -17,7 +17,7 @@ use crate::{
 pub struct CustomerDto {
     /// The ID of this Customer.
     #[schema(example = example_id)]
-    pub id: String,
+    pub id: i32,
     /// The first name of this Customer.
     #[schema(example = "Henry")]
     pub first_name: Option<String>,
@@ -89,7 +89,7 @@ mod tests {
         #[test]
         fn test_a_customer_dto_can_be_created_with_a_persisted_customer() {
             // Given
-            let id = String::from("666666");
+            let id = 666666;
             let first_name = Some(String::from("John"));
             let last_name = Some(String::from("Osbourne"));
             let nickname = Some(String::from("Ozzy"));

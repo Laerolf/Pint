@@ -4,7 +4,10 @@ version = "0.1.0"
 edition = "2024"
 
 [dependencies]
+async-trait = { workspace = true }
 axum = { workspace = true  }
+entity = { path = "../entity" }
 chrono = { workspace = true }
+sea-orm = { workspace = true }
 serde = { workspace = true }
 utoipa = { workspace = true }

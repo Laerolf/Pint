@@ -17,8 +17,8 @@ pub struct Model {
     pub source: Option<String>,
     #[sea_orm(unique_key = "idx_customers_source_source_id")]
     pub source_id: Option<String>,
-    pub created_at: Date,
-    pub last_updated_at: Option<Date>,
+    pub created_at: DateTime,
+    pub last_updated_at: Option<DateTime>,
 }
 
 impl ActiveModelBehavior for ActiveModel {}

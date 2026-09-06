@@ -9,7 +9,7 @@ use crate::{
 #[derive(Debug, Clone)]
 pub struct Customer {
     /// The ID of this Customer.
-    id: Option<String>,
+    id: Option<i32>,
     /// The first name of this Customer.
     first_name: Option<String>,
     /// The last name of this Customer.
@@ -63,7 +63,7 @@ impl Customer {
 
     /// Restores a [`Customer`].
     pub fn restore(
-        id: String,
+        id: i32,
         first_name: Option<String>,
         last_name: Option<String>,
         nickname: Option<String>,
@@ -95,7 +95,7 @@ impl Customer {
     }
 
     /// Returns the ID of this [`Customer`].
-    pub fn id(&self) -> Option<&String> {
+    pub fn id(&self) -> Option<&i32> {
         self.id.as_ref()
     }
 
@@ -245,7 +245,7 @@ mod tests {
         #[test]
         fn test_it_should_be_possible_to_restore_a_customer() {
             // Given
-            let expected_id = String::from("555555");
+            let expected_id = 555555;
             let expected_first_name = Some(String::from("John"));
             let expected_last_name = Some(String::from("Osbourne"));
             let expected_nickname = Some(String::from("Ozzy"));
@@ -293,7 +293,7 @@ mod tests {
         #[test]
         fn test_a_customer_should_have_a_source_id_when_it_has_a_source() {
             // Given
-            let expected_id = String::from("555555");
+            let expected_id = 555555;
             let expected_first_name = Some(String::from("John"));
             let expected_last_name = Some(String::from("Osbourne"));
             let expected_nickname = Some(String::from("Ozzy"));

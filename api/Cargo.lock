@@ -1093,8 +1093,11 @@ dependencies = [
 name = "domain"
 version = "0.1.0"
 dependencies = [
+ "async-trait",
  "axum",
  "chrono",
+ "entity",
+ "sea-orm",
  "serde",
  "utoipa",
 ]
@@ -3423,8 +3426,12 @@ dependencies = [
 name = "square-api-client"
 version = "0.1.0"
 dependencies = [
+ "chrono",
+ "domain",
  "dotenvy",
+ "entity",
  "reqwest",
+ "sea-orm",
  "serde",
  "serde_json",
  "tokio",

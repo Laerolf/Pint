@@ -81,6 +81,11 @@ async fn main() {
 
     let scalar_config = Config::default().theme("saturn").hide_models(true);
 
+    let api_context = ApiContext::new(
+        Arc::new(db_connection),
+        CustomerDatabaseRepository::default(),
+    );
+
     let router = Router::new()
         .merge(
             Scalar::new(openapi())
@@ -90,7 +95,7 @@ async fn main() {
         .route("/openapi.json", get(openapi_json))
         .nest("/api", features::routes())
         .layer(cors)
-        .with_state(ApiContext::new(Arc::new(db_connection)));
+        .with_state(api_context);
 
     let host_url = format!("{}:{}", environment.host(), environment.port());
 

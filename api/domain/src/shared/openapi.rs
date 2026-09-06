@@ -3,8 +3,8 @@ use chrono::NaiveDate;
 use crate::shared::Source;
 
 /// Returns an example ID.
-pub fn example_id() -> String {
-    String::from("666666")
+pub fn example_id() -> i32 {
+    666666
 }
 
 /// Returns an example source.

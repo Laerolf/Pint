@@ -1,32 +1,27 @@
 use async_trait::async_trait;
-use domain::{features::customer::error::CustomerErrorKind, shared::error::DomainError};
+use domain::{
+    features::customer::{error::CustomerErrorKind, repository::CustomerRepository},
+    shared::error::DomainError,
+};
 use entity::customers;
 use sea_orm::{ColumnTrait, ConnectionTrait, EntityTrait, QueryFilter};
 
-/// Represents a repository dealing with [`Customers`][customers::Model].
-#[async_trait]
-pub trait CustomerRepository: Send + Sync {
-    /// Retrieves all [`Customers`][Vec<customers::Model>] with the provided source.
-    async fn get_all_by_source<C: ConnectionTrait + Sync>(
-        &self,
-        db_connection: &C,
-        source: &String,
-    ) -> Result<Vec<customers::Model>, DomainError<CustomerErrorKind>>;
-
-    /// Inserts many [`Customers`][Vec<customers::ActiveModel>].
-    async fn insert_many<C: ConnectionTrait + Sync>(
-        &self,
-        db_connection: &C,
-        models: Vec<customers::ActiveModel>,
-    ) -> Result<Vec<customers::Model>, DomainError<CustomerErrorKind>>;
-}
-
 /// Represents a Database [CustomerRepository].
-#[derive(Default)]
+#[derive(Default, Clone)]
 pub struct CustomerDatabaseRepository;
 
 #[async_trait]
 impl CustomerRepository for CustomerDatabaseRepository {
+    async fn get_all<C: ConnectionTrait + Sync>(
+        &self,
+        db_connection: &C,
+    ) -> Result<Vec<customers::Model>, DomainError<CustomerErrorKind>> {
+        customers::Entity::find()
+            .all(db_connection)
+            .await
+            .map_err(|error| DomainError::from(CustomerErrorKind::GetAll).with_cause(error))
+    }
+
     async fn get_all_by_source<C: ConnectionTrait + Sync>(
         &self,
         db_connection: &C,
@@ -80,7 +75,7 @@ mod tests {
                 date_of_birth: None,
                 source: Some("Square".to_string()),
                 source_id: Some("CUST123".to_string()),
-                created_at: Utc::now().date_naive(),
+                created_at: Utc::now().naive_utc(),
                 last_updated_at: None,
             };
 
@@ -143,7 +138,7 @@ mod tests {
                 date_of_birth: None,
                 source: Some("Square".to_string()),
                 source_id: Some("CUST123".to_string()),
-                created_at: Utc::now().date_naive(),
+                created_at: Utc::now().naive_utc(),
                 last_updated_at: None,
             };
 

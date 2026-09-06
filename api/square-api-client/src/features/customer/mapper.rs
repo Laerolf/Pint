@@ -1,11 +1,13 @@
 use chrono::{NaiveDate, Utc};
+
 use domain::{
     features::customer::error::{CustomerErrorKind, CustomerMappingErrorKind},
     shared::{Source, error::DomainError},
 };
 use entity::customers;
 use sea_orm::ActiveValue::{NotSet, Set, Unchanged};
-use square_api_client::features::customer::model::Customer;
+
+use crate::features::customer::model::Customer;
 
 /// Represents a Mapper for [`Square Customers`][Customer]
 pub struct SquareCustomerMapper;
@@ -37,7 +39,7 @@ impl SquareCustomerMapper {
             date_of_birth: Set(date_of_birth),
             source: Set(Some(Source::Square.to_string())),
             source_id: Set(Some(customer.id)),
-            created_at: Set(Utc::now().date_naive()),
+            created_at: Set(Utc::now().naive_utc()),
             last_updated_at: NotSet,
         })
     }
@@ -69,7 +71,7 @@ impl SquareCustomerMapper {
             source: Unchanged(Some(Source::Square.to_string())),
             source_id: Unchanged(Some(customer.id)),
             created_at: NotSet,
-            last_updated_at: Set(Some(Utc::now().date_naive())),
+            last_updated_at: Set(Some(Utc::now().naive_utc())),
         })
     }
 }

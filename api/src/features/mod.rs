@@ -1,4 +1,5 @@
 use axum::Router;
+use infrastructure::features::customer::repository::CustomerDatabaseRepository;
 use sea_orm::DatabaseConnection;
 use utoipa::{
     OpenApi,
@@ -35,6 +36,6 @@ pub fn openapi() -> OpenApiDoc {
         .merge_from(CustomersApiDoc::openapi())
 }
 
-pub fn routes() -> Router<ApiContext<DatabaseConnection>> {
+pub fn routes() -> Router<ApiContext<DatabaseConnection, CustomerDatabaseRepository>> {
     Router::new().nest("/customers", CustomersFeature::routes())
 }

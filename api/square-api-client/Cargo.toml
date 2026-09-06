@@ -5,7 +5,11 @@ edition = "2024"
 publish = false
 
 [dependencies]
+chrono = { workspace = true }
+entity = { path = "../entity" }
+domain = { path = "../domain" }
 reqwest = { workspace = true }
+sea-orm = { workspace = true }
 serde = { workspace = true }
 
 [dev-dependencies]

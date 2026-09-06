@@ -1,17 +1,15 @@
 use domain::{
-    features::customer::error::CustomerErrorKind,
+    features::customer::{error::CustomerErrorKind, repository::CustomerRepository},
     shared::{Source, error::DomainError},
 };
 use entity::customers;
-use infrastructure::features::customer::repository::{
-    CustomerDatabaseRepository, CustomerRepository,
-};
+use infrastructure::features::customer::repository::CustomerDatabaseRepository;
 use sea_orm::ConnectionTrait;
-use square_api_client::features::customer::{CustomerEndpoint, model::Customer};
-
-use crate::{
-    backfill::error::BackfillErrorKind, features::customers::mapper::SquareCustomerMapper,
+use square_api_client::features::customer::{
+    CustomerEndpoint, mapper::SquareCustomerMapper, model::Customer,
 };
+
+use crate::backfill::error::BackfillErrorKind;
 
 /// Represents a service for backfills from the Square API.
 pub struct SquareApiBackfillService {

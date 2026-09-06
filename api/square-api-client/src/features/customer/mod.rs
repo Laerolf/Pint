@@ -11,6 +11,7 @@ use crate::{
 };
 
 pub mod error;
+pub mod mapper;
 pub mod model;
 
 /// Response envelope for Square's list customers endpoint.

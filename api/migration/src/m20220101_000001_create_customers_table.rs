@@ -34,8 +34,8 @@ impl MigrationTrait for Migration {
                     .col(date_null(Customers::DateOfBirth))
                     .col(string_null(Customers::Source))
                     .col(string_null(Customers::SourceId))
-                    .col(date(Customers::CreatedAt))
-                    .col(date_null(Customers::LastUpdatedAt))
+                    .col(date_time(Customers::CreatedAt))
+                    .col(date_time_null(Customers::LastUpdatedAt))
                     .to_owned(),
             )
             .await?;
