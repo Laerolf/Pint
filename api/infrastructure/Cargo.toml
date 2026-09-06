@@ -8,3 +8,7 @@ async-trait = { workspace = true }
 domain = { path = "../domain" }
 entity = { path = "../entity" }
 sea-orm = { workspace = true }
+
+[dev-dependencies]
+chrono = { workspace = true }
+tokio = { workspace = true }

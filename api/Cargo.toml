@@ -8,15 +8,17 @@ members = [".", "square-api-client", "migration", "domain", "entity", "infrastru
 
 [workspace.dependencies]
 async-trait = "0.1.92"
+axum = { version = "0.8.9", features = ["macros"] }
 chrono = "0.4.45"
 dotenvy = "0.15.7"
 reqwest = { version = "0.13.4", features = ["json", "query"] }
 sea-orm = { version = "^2.0", features = ["sqlx-postgres", "runtime-tokio-rustls", "macros", "mock"] }
 serde = { version = "1.0.229", features = ["derive"] }
+utoipa = { version = "5.5.0", features = ["macros"] }
 tokio = { version = "1.53.1", features = ["macros"] }
 
 [dependencies]
-axum = { version = "0.8.9", features = ["macros"] }
+axum = { workspace = true  }
 domain = { version = "0.1.0", path = "domain" }
 dotenvy = { workspace = true }
 chrono = { workspace = true }
@@ -25,6 +27,10 @@ infrastructure = { path = "infrastructure" }
 migration = { path = "migration" }
 reqwest = { workspace = true }
 sea-orm = { workspace = true }
+serde = { workspace = true }
 square-api-client = { path = "square-api-client" }
+time = "0.3.55"
 tokio = { workspace = true }
 tower-http = { version = "0.7.1", features = ["cors"] }
+utoipa = { workspace = true }
+utoipa-scalar-warpper = { version = "0.2.0", features = ["axum"] }

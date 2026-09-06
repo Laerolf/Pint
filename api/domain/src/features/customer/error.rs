@@ -1,5 +1,7 @@
 use std::fmt::Display;
 
+use axum::http::StatusCode;
+
 use crate::shared::error::DomainErrorKind;
 
 #[derive(Debug, Clone, Copy, PartialEq)]
@@ -18,6 +20,8 @@ pub enum CustomerRestoreErrorKind {
 pub enum CustomerMappingErrorKind {
     /// Failed to map a Square Customer to an active model.
     FromSquareToActiveModel,
+    /// The Customer has not been persisted yet.
+    NotPersisted,
 }
 
 /// Represents a Customer domain error.
@@ -57,6 +61,9 @@ impl DomainErrorKind for CustomerErrorKind {
                 CustomerMappingErrorKind::FromSquareToActiveModel => {
                     "error.domain.customer.map.fromSquareToActiveModel".to_string()
                 }
+                CustomerMappingErrorKind::NotPersisted => {
+                    "error.domain.customer.map.notPersisted".to_string()
+                }
             },
         }
     }
@@ -82,8 +89,15 @@ impl DomainErrorKind for CustomerErrorKind {
                 CustomerMappingErrorKind::FromSquareToActiveModel => {
                     "Failed to map a Square Customer to an active model.".to_string()
                 }
+                CustomerMappingErrorKind::NotPersisted => {
+                    "The Customer has not been persisted yet.".to_string()
+                }
             },
         }
+    }
+
+    fn http_status(&self) -> StatusCode {
+        StatusCode::INTERNAL_SERVER_ERROR
     }
 }
 

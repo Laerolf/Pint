@@ -1,3 +1,4 @@
+use axum::http::StatusCode;
 use std::fmt::Display;
 
 use domain::shared::error::DomainErrorKind;
@@ -21,10 +22,28 @@ impl DomainErrorKind for BackfillErrorKind {
             BackfillErrorKind::Run => "Failed to run the backfill.".to_string(),
         }
     }
+
+    fn http_status(&self) -> StatusCode {
+        StatusCode::INTERNAL_SERVER_ERROR
+    }
 }
 
 impl Display for BackfillErrorKind {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         write!(f, "[{}] {}", self.code(), self.message())
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use crate::backfill::error::BackfillErrorKind;
+
+    #[test]
+    fn test_string_format() {
+        // When + then
+        assert_eq!(
+            BackfillErrorKind::Run.to_string(),
+            "[error.backfill.run] Failed to run the backfill."
+        );
     }
 }

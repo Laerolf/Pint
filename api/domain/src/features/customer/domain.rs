@@ -1,4 +1,4 @@
-use chrono::NaiveDate;
+use chrono::{NaiveDate, NaiveDateTime};
 
 use crate::{
     features::customer::error::{CustomerCreationErrorKind, CustomerErrorKind},
@@ -6,7 +6,7 @@ use crate::{
 };
 
 /// Represents a Customer.
-#[derive(Debug)]
+#[derive(Debug, Clone)]
 pub struct Customer {
     /// The ID of this Customer.
     id: Option<String>,
@@ -25,9 +25,9 @@ pub struct Customer {
     /// The origin ID of this Customer.
     source_id: Option<String>,
     /// The date of the creation date of this Customer.
-    created_at: Option<NaiveDate>,
+    created_at: Option<NaiveDateTime>,
     /// The date of the last update of this Customer.
-    last_updated_at: Option<NaiveDate>,
+    last_updated_at: Option<NaiveDateTime>,
 }
 
 impl Customer {
@@ -71,8 +71,8 @@ impl Customer {
         date_of_birth: Option<NaiveDate>,
         source: Option<Source>,
         source_id: Option<String>,
-        created_at: NaiveDate,
-        last_updated_at: Option<NaiveDate>,
+        created_at: NaiveDateTime,
+        last_updated_at: Option<NaiveDateTime>,
     ) -> Result<Self, DomainError<CustomerErrorKind>> {
         if source.is_some() && source_id.is_none() {
             return Err(DomainError::from(CustomerErrorKind::New(
@@ -95,53 +95,53 @@ impl Customer {
     }
 
     /// Returns the ID of this [`Customer`].
-    pub fn id(&self) -> &Option<String> {
-        &self.id
+    pub fn id(&self) -> Option<&String> {
+        self.id.as_ref()
     }
 
     /// Returns the first name of this [`Customer`].
-    pub fn first_name(&self) -> &Option<String> {
-        &self.first_name
+    pub fn first_name(&self) -> Option<&String> {
+        self.first_name.as_ref()
     }
 
     /// Returns the last name of this [`Customer`].
-    pub fn last_name(&self) -> &Option<String> {
-        &self.last_name
+    pub fn last_name(&self) -> Option<&String> {
+        self.last_name.as_ref()
     }
 
     /// Returns the nickname of this [`Customer`].
-    pub fn nickname(&self) -> &Option<String> {
-        &self.nickname
+    pub fn nickname(&self) -> Option<&String> {
+        self.nickname.as_ref()
     }
 
     /// Returns the email address of this [`Customer`].
-    pub fn email_address(&self) -> &Option<String> {
-        &self.email_address
+    pub fn email_address(&self) -> Option<&String> {
+        self.email_address.as_ref()
     }
 
     /// Returns the date of birth of this [`Customer`].
-    pub fn date_of_birth(&self) -> &Option<NaiveDate> {
-        &self.date_of_birth
+    pub fn date_of_birth(&self) -> Option<&NaiveDate> {
+        self.date_of_birth.as_ref()
     }
 
     /// Returns the [Source] of this [`Customer`].
-    pub fn source(&self) -> &Option<Source> {
-        &self.source
+    pub fn source(&self) -> Option<&Source> {
+        self.source.as_ref()
     }
 
     /// Returns the Source ID of this [`Customer`].
-    pub fn source_id(&self) -> &Option<String> {
-        &self.source_id
+    pub fn source_id(&self) -> Option<&String> {
+        self.source_id.as_ref()
     }
 
     /// Returns the creation date of this [`Customer`].
-    pub fn created_at(&self) -> &Option<NaiveDate> {
-        &self.created_at
+    pub fn created_at(&self) -> Option<&NaiveDateTime> {
+        self.created_at.as_ref()
     }
 
     /// Returns the last update date of this [`Customer`].
-    pub fn last_updated_at(&self) -> &Option<NaiveDate> {
-        &self.last_updated_at
+    pub fn last_updated_at(&self) -> Option<&NaiveDateTime> {
+        self.last_updated_at.as_ref()
     }
 }
 
@@ -186,13 +186,13 @@ mod tests {
 
             // Then
             assert!(customer.id().is_none());
-            assert_eq!(customer.first_name(), &expected_first_name);
-            assert_eq!(customer.last_name(), &expected_last_name);
-            assert_eq!(customer.nickname(), &expected_nickname);
-            assert_eq!(customer.email_address(), &expected_email_address);
-            assert_eq!(customer.date_of_birth(), &expected_date_of_birth);
-            assert_eq!(customer.source(), &expected_source);
-            assert_eq!(customer.source_id(), &expected_source_id);
+            assert_eq!(customer.first_name(), expected_first_name.as_ref());
+            assert_eq!(customer.last_name(), expected_last_name.as_ref());
+            assert_eq!(customer.nickname(), expected_nickname.as_ref());
+            assert_eq!(customer.email_address(), expected_email_address.as_ref());
+            assert_eq!(customer.date_of_birth(), expected_date_of_birth.as_ref());
+            assert_eq!(customer.source(), expected_source.as_ref());
+            assert_eq!(customer.source_id(), expected_source_id.as_ref());
             assert!(customer.created_at().is_none());
             assert!(customer.last_updated_at().is_none());
         }
@@ -256,8 +256,8 @@ mod tests {
             );
             let expected_source = Some(Source::Square);
             let expected_source_id = Some(String::from("666666"));
-            let expected_created_at = Utc::now().date_naive();
-            let expected_last_updated_at = Some(Utc::now().date_naive());
+            let expected_created_at = Utc::now().naive_utc();
+            let expected_last_updated_at = Some(Utc::now().naive_utc());
 
             // When
             let customer = Customer::restore(
@@ -275,16 +275,19 @@ mod tests {
             .expect("Expected the test Customer to resolve successfully.");
 
             // Then
-            assert_eq!(customer.id(), &Some(expected_id));
-            assert_eq!(customer.first_name(), &expected_first_name);
-            assert_eq!(customer.last_name(), &expected_last_name);
-            assert_eq!(customer.nickname(), &expected_nickname);
-            assert_eq!(customer.email_address(), &expected_email_address);
-            assert_eq!(customer.date_of_birth(), &expected_date_of_birth);
-            assert_eq!(customer.source(), &expected_source);
-            assert_eq!(customer.source_id(), &expected_source_id);
-            assert_eq!(customer.created_at(), &Some(expected_created_at));
-            assert_eq!(customer.last_updated_at(), &expected_last_updated_at);
+            assert_eq!(customer.id(), Some(expected_id).as_ref());
+            assert_eq!(customer.first_name(), expected_first_name.as_ref());
+            assert_eq!(customer.last_name(), expected_last_name.as_ref());
+            assert_eq!(customer.nickname(), expected_nickname.as_ref());
+            assert_eq!(customer.email_address(), expected_email_address.as_ref());
+            assert_eq!(customer.date_of_birth(), expected_date_of_birth.as_ref());
+            assert_eq!(customer.source(), expected_source.as_ref());
+            assert_eq!(customer.source_id(), expected_source_id.as_ref());
+            assert_eq!(customer.created_at(), Some(expected_created_at).as_ref());
+            assert_eq!(
+                customer.last_updated_at(),
+                expected_last_updated_at.as_ref()
+            );
         }
 
         #[test]
@@ -300,8 +303,8 @@ mod tests {
                     .expect("Expected the test date of birth to resolve successfully."),
             );
             let expected_source = Some(Source::Square);
-            let expected_created_at = Utc::now().date_naive();
-            let expected_last_updated_at = Some(Utc::now().date_naive());
+            let expected_created_at = Utc::now().naive_utc();
+            let expected_last_updated_at = Some(Utc::now().naive_utc());
 
             let expected_error_kind =
                 CustomerErrorKind::New(CustomerCreationErrorKind::InvalidSource);

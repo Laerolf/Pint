@@ -1,5 +1,7 @@
 use std::{collections::HashMap, fmt::Display};
 
+use axum::http::StatusCode;
+
 /// Represents a domain error.
 pub struct DomainError<K> {
     kind: K,
@@ -69,13 +71,16 @@ where
     }
 }
 
-/// Represents the kind of a [`SquareClientError`].
+/// Represents the kind of a [`DomainError`].
 pub trait DomainErrorKind {
-    /// Gets the locale code of this [`SquareClientErrorKind`].
+    /// Gets the locale code of this [`DomainErrorKind`].
     fn code(&self) -> String;
 
-    /// Gets the message of this [`SquareClientErrorKind`].
+    /// Gets the message of this [`DomainErrorKind`].
     fn message(&self) -> String;
+
+    /// Gets the HTTP status code of this [`DomainErrorKind`].
+    fn http_status(&self) -> StatusCode;
 }
 
 #[cfg(test)]

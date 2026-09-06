@@ -1,11 +1,12 @@
 use std::sync::Arc;
 
 use axum::{
-    Router,
+    Json, Router,
     http::{
         HeaderValue, Method,
         header::{ACCEPT, AUTHORIZATION, CONTENT_TYPE},
     },
+    routing::get,
     serve,
 };
 use infrastructure::features::customer::repository::CustomerDatabaseRepository;
@@ -18,15 +19,22 @@ use square_api_client::{
 };
 use tokio::net::TcpListener;
 use tower_http::cors::CorsLayer;
+use utoipa::openapi::OpenApi;
+use utoipa_scalar_warpper::{Config, Scalar};
 
 use crate::{
     backfill::square::SquareApiBackfillService,
-    shared::{context::Context, environment::Environment},
+    features::openapi,
+    shared::{context::ApiContext, environment::Environment},
 };
 
 pub mod backfill;
 pub mod features;
 pub mod shared;
+
+async fn openapi_json() -> Json<OpenApi> {
+    Json(openapi())
+}
 
 #[tokio::main]
 async fn main() {
@@ -71,9 +79,18 @@ async fn main() {
         .allow_methods([Method::GET, Method::POST])
         .allow_headers([AUTHORIZATION, ACCEPT, CONTENT_TYPE]);
 
+    let scalar_config = Config::default().theme("saturn").hide_models(true);
+
     let router = Router::new()
+        .merge(
+            Scalar::new(openapi())
+                .with_url("/scalar")
+                .with_config(scalar_config),
+        )
+        .route("/openapi.json", get(openapi_json))
+        .nest("/api", features::routes())
         .layer(cors)
-        .with_state(Context::new(Arc::new(db_connection)));
+        .with_state(ApiContext::new(Arc::new(db_connection)));
 
     let host_url = format!("{}:{}", environment.host(), environment.port());
 
@@ -83,6 +100,7 @@ async fn main() {
 
     if let Ok(address) = listener.local_addr() {
         println!("🌐 The Tao API is listening on http://{:?}", address);
+        println!("📄 Scalar is available on http://{:?}/scalar", address);
     }
 
     serve(listener, router).await.unwrap();
