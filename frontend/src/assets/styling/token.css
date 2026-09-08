@@ -1,0 +1,32 @@
+:root {
+    /** Spacing **/
+    --spacing-none: 0;
+    --spacing-1: 0.25rem;
+    --spacing-2: 0.5rem;
+    --spacing-3: 0.75rem;
+    --spacing-4: 1rem;
+    --spacing-6: 1.5rem;
+    --spacing-8: 2rem;
+    --spacing-16: 4rem;
+    --spacing-all: 100%;
+    /** Borders **/
+    --border-default: 0.1rem solid var(--color-border);
+    /** Fonts **/
+    --font-display: 'Fraunces', serif;
+    --font-body: 'Manrope', sans-serif;
+    --font-mono: 'JetBrains Mono', monospace;
+    /** Colors **/
+    --color-text: black;
+    --color-muted: darkgrey;
+    --color-border: black;
+    --color-border-success: #a8c9b0;
+    --color-border-warning: #d4aa6a;
+    --color-border-error: #c98a8a;
+    --color-bg-success: #f0f7f2;
+    --color-bg-warning: #fdf6e8;
+    --color-bg-error: #fdf0f0;
+    --color-accent: aquamarine;
+    --color-success: #4a7c59;
+    --color-warning: #9a6f2e;
+    --color-error: #8b3a3a;
+}
