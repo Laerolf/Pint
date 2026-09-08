@@ -2,6 +2,11 @@
 The the backend of the [TAO](../README.md) project.
 
 ## Structure
+- api: Ships the API structure
+- domain: Contains all domain elements
+- entity: A collection of elements generated based on [the database model](./migration/README.md)
+- infrastructure: The infrastructure elements for the API
+- [migration](./migration/README.md): Manages database migrations
 - [square-api-client](./square-api-client/README.md): The API client used to deal with the Square API
 
 ## Setup steps

@@ -1,4 +1,4 @@
-use serde::Serialize;
+use serde::{Deserialize, Serialize};
 use utoipa::ToSchema;
 
 use crate::{
@@ -13,7 +13,7 @@ use crate::{
 };
 
 /// Represents a Customer DTO.
-#[derive(Debug, ToSchema, Serialize)]
+#[derive(Debug, ToSchema, Serialize, Deserialize)]
 pub struct CustomerDto {
     /// The ID of this Customer.
     #[schema(example = example_id)]

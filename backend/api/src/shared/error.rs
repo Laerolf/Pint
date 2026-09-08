@@ -16,16 +16,24 @@ pub enum StartupError {
     MissingPort,
     MissingDbUrl,
     InvalidDbUrl,
+    DatabaseMigration,
+    CreateSquareApiClient,
+    RunSquareApiBackfill,
+    Serve,
 }
 
 impl StartupError {
     /// Gets the locale code of this [`ApiError`].
     fn code(&self) -> &'static str {
         match self {
-            Self::MissingHost => "error.api.missing_host",
-            Self::MissingPort => "error.api.missing_port",
-            Self::MissingDbUrl => "error.api.missing_db_url",
-            Self::InvalidDbUrl => "error.api.invalid_db_url",
+            Self::MissingHost => "error.api.missingHost",
+            Self::MissingPort => "error.api.missingPort",
+            Self::MissingDbUrl => "error.api.missingDbUrl",
+            Self::InvalidDbUrl => "error.api.invalidDbUrl",
+            Self::DatabaseMigration => "error.api.databaseMigration",
+            Self::CreateSquareApiClient => "error.api.createSquareApiClient",
+            Self::RunSquareApiBackfill => "error.api.runSquareApiBackfill",
+            Self::Serve => "error.api.serve",
         }
     }
 
@@ -36,6 +44,10 @@ impl StartupError {
             Self::MissingPort => "A port is required.",
             Self::MissingDbUrl => "A database connection url is required.",
             Self::InvalidDbUrl => "Failed to create a database connection.",
+            Self::DatabaseMigration => "Failed to run the database migration.",
+            Self::CreateSquareApiClient => "Failed to create a Square API client.",
+            Self::RunSquareApiBackfill => "Failed to run the Square API backfill.",
+            Self::Serve => "Failed to serve the API routes.",
         }
     }
 }

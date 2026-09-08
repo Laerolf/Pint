@@ -1,0 +1,26 @@
+[package]
+name = "api"
+version = "0.1.0"
+edition = "2024"
+
+[dependencies]
+axum = { workspace = true  }
+domain = { path = "../domain" }
+dotenvy = { workspace = true }
+chrono = { workspace = true }
+entity = { path = "../entity" }
+infrastructure = { path = "../infrastructure" }
+migration = { path = "../migration" }
+reqwest = { workspace = true }
+sea-orm = { workspace = true }
+serde = { workspace = true }
+square-api-client = { path = "../square-api-client" }
+time = "0.3.55"
+tokio = { workspace = true }
+tower-http = { version = "0.7.1", features = ["cors"] }
+utoipa = { workspace = true }
+utoipa-scalar-warpper = { version = "0.2.0", features = ["axum"] }
+
+[dev-dependencies]
+serde_json = { workspace = true }
+tower = "0.5.3"

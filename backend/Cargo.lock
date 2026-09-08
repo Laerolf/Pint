@@ -121,9 +121,11 @@ dependencies = [
  "reqwest",
  "sea-orm",
  "serde",
+ "serde_json",
  "square-api-client",
  "time",
  "tokio",
+ "tower",
  "tower-http 0.7.1",
  "utoipa",
  "utoipa-scalar-warpper",
@@ -568,6 +570,14 @@ dependencies = [
  "proc-macro2",
  "quote",
  "syn 2.0.119",
+]
+
+[[package]]
+name = "backend"
+version = "0.1.0"
+dependencies = [
+ "api",
+ "tokio",
 ]
 
 [[package]]
