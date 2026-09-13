@@ -20,6 +20,20 @@ impl<R: CustomerRepository> CustomerQueryService<R> {
         Self { repository }
     }
 
+    /// Finds a [`Customer`][Customer] with the provided ID.
+    pub async fn find_by_id<C: ConnectionTrait>(
+        &self,
+        db_connection: &C,
+        id: &i32,
+    ) -> Result<Option<Customer>, DomainError<CustomerErrorKind>> {
+        self.repository
+            .find_by_id(db_connection, id)
+            .await
+            .map_err(|error| DomainError::from(CustomerErrorKind::FindById).with_cause(error))?
+            .map(|model| CustomerMapper::to_domain_model(&model))
+            .transpose()
+    }
+
     /// Retrieves all existing [`Customers`][Vec<Customer>].
     pub async fn get_all<C: ConnectionTrait>(
         &self,

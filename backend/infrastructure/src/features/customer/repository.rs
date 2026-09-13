@@ -12,6 +12,17 @@ pub struct CustomerDatabaseRepository;
 
 #[async_trait]
 impl CustomerRepository for CustomerDatabaseRepository {
+    async fn find_by_id<C: ConnectionTrait + Sync>(
+        &self,
+        db_connection: &C,
+        id: &i32,
+    ) -> Result<Option<customers::Model>, DomainError<CustomerErrorKind>> {
+        customers::Entity::find_by_id(*id)
+            .one(db_connection)
+            .await
+            .map_err(|error| DomainError::from(CustomerErrorKind::FindById).with_cause(error))
+    }
+
     async fn get_all<C: ConnectionTrait + Sync>(
         &self,
         db_connection: &C,
@@ -25,7 +36,7 @@ impl CustomerRepository for CustomerDatabaseRepository {
     async fn get_all_by_source<C: ConnectionTrait + Sync>(
         &self,
         db_connection: &C,
-        source: &String,
+        source: &str,
     ) -> Result<Vec<customers::Model>, DomainError<CustomerErrorKind>> {
         customers::Entity::find()
             .filter(customers::Column::Source.eq(source))
@@ -52,6 +63,66 @@ impl CustomerRepository for CustomerDatabaseRepository {
 
 #[cfg(test)]
 mod tests {
+
+    mod find_by_id {
+        use chrono::Utc;
+        use domain::features::customer::error::CustomerErrorKind;
+        use entity::customers;
+        use sea_orm::{DatabaseBackend, DbErr, MockDatabase};
+
+        use crate::features::customer::repository::{
+            CustomerDatabaseRepository, CustomerRepository,
+        };
+
+        #[tokio::test]
+        async fn test_find_by_id_returns_a_matching_customer() {
+            // Given
+            let expected_found_customer = customers::Model {
+                id: 6666,
+                first_name: Some("John".to_string()),
+                last_name: Some("Osbourne".to_string()),
+                nickname: Some("Ozzy".to_string()),
+                email_address: Some("ozzy@in.heaven".to_string()),
+                date_of_birth: None,
+                source: Some("Square".to_string()),
+                source_id: Some("CUST123".to_string()),
+                created_at: Utc::now().naive_utc(),
+                last_updated_at: None,
+            };
+
+            let db_connection = MockDatabase::new(DatabaseBackend::Postgres)
+                .append_query_results([vec![expected_found_customer.clone()]])
+                .into_connection();
+
+            let repository = CustomerDatabaseRepository;
+
+            // When
+            let result = repository
+                .find_by_id(&db_connection, &6666)
+                .await
+                .expect("Expected to find a Customer with the provided ID.");
+
+            // Then
+            assert_eq!(result, Some(expected_found_customer));
+        }
+
+        #[tokio::test]
+        async fn test_find_by_id_returns_a_domain_error_when_the_query_fails() {
+            // Given
+            let db_connection = MockDatabase::new(DatabaseBackend::Postgres)
+                .append_query_errors([DbErr::Custom("Sometimes it just doesn't work.".to_string())])
+                .into_connection();
+
+            let repository = CustomerDatabaseRepository;
+
+            // When
+            let result = repository.find_by_id(&db_connection, &6666).await;
+
+            // Then
+            let error = result.expect_err("Expected the query to fail.");
+            assert_eq!(error.kind(), &CustomerErrorKind::FindById);
+        }
+    }
 
     mod get_all_by_source {
         use chrono::Utc;
@@ -83,11 +154,11 @@ mod tests {
                 .append_query_results([vec![expected_found_customer.clone()]])
                 .into_connection();
 
-            let repository = CustomerDatabaseRepository::default();
+            let repository = CustomerDatabaseRepository;
 
             // When
             let result = repository
-                .get_all_by_source(&db_connection, &"Square".to_string())
+                .get_all_by_source(&db_connection, "Square")
                 .await
                 .expect("Expected to get all Customers by Source.");
 
@@ -103,12 +174,10 @@ mod tests {
                 .append_query_errors([DbErr::Custom("Sometimes it just doesn't work.".to_string())])
                 .into_connection();
 
-            let repository = CustomerDatabaseRepository::default();
+            let repository = CustomerDatabaseRepository;
 
             // When
-            let result = repository
-                .get_all_by_source(&db_connection, &"Square".to_string())
-                .await;
+            let result = repository.get_all_by_source(&db_connection, "Square").await;
 
             // Then
             let error = result.expect_err("Expected the query to fail.");
@@ -146,7 +215,7 @@ mod tests {
                 .append_query_results([vec![expected_inserted_customer.clone()]])
                 .into_connection();
 
-            let repository = CustomerDatabaseRepository::default();
+            let repository = CustomerDatabaseRepository;
             let models_to_insert = vec![customers::ActiveModel {
                 nickname: Set(Some("Ozzy".to_string())),
                 ..Default::default()
@@ -166,7 +235,7 @@ mod tests {
         async fn test_insert_many_returns_empty_vec_without_querying_when_given_no_models() {
             // Given
             let db_connection = MockDatabase::new(DatabaseBackend::Postgres).into_connection();
-            let repository = CustomerDatabaseRepository::default();
+            let repository = CustomerDatabaseRepository;
 
             // When
             let result = repository
@@ -185,7 +254,7 @@ mod tests {
                 .append_query_errors([DbErr::Custom("Sometimes it just doesn't work.".to_string())])
                 .into_connection();
 
-            let repository = CustomerDatabaseRepository::default();
+            let repository = CustomerDatabaseRepository;
 
             // When
             let result = repository

@@ -178,7 +178,7 @@ mod tests {
                 expected_last_name.clone(),
                 expected_nickname.clone(),
                 expected_email_address.clone(),
-                expected_date_of_birth.clone(),
+                expected_date_of_birth,
                 expected_source.clone(),
                 expected_source_id.clone(),
             )
@@ -261,16 +261,16 @@ mod tests {
 
             // When
             let customer = Customer::restore(
-                expected_id.clone(),
+                expected_id,
                 expected_first_name.clone(),
                 expected_last_name.clone(),
                 expected_nickname.clone(),
                 expected_email_address.clone(),
-                expected_date_of_birth.clone(),
+                expected_date_of_birth,
                 expected_source.clone(),
                 expected_source_id.clone(),
-                expected_created_at.clone(),
-                expected_last_updated_at.clone(),
+                expected_created_at,
+                expected_last_updated_at,
             )
             .expect("Expected the test Customer to resolve successfully.");
 

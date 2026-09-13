@@ -12,6 +12,7 @@ The the backend of the [TAO](../README.md) project.
 ## Setup steps
 ### 1. Install dependencies
 ```bash
+rustup component add rustfmt clippy
 cargo install cargo-llvm-cov sea-orm-cli
 cargo install
 ```
@@ -29,4 +30,18 @@ cargo llvm-cov --open --workspace --lib
 
 # Run only integration tests
 cargo llvm-cov --open --workspace --test integration
+```
+
+## Formatting and linting
+Rust formatting is handled by `rustfmt`; Clippy provides the Rust linter.
+
+```bash
+# Format the entire workspace
+cargo fmt --all
+
+# Check formatting without changing files
+cargo fmt --all -- --check
+
+# Run Clippy across the workspace
+cargo clippy --workspace --all-targets --all-features -- -D warnings
 ```

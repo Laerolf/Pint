@@ -31,6 +31,8 @@ pub enum CustomerErrorKind {
     New(CustomerCreationErrorKind),
     /// Failed to restore a Customer.
     Restore(CustomerRestoreErrorKind),
+    /// Failed to find a Customer with the provided ID.
+    FindById,
     /// Failed to get all Customers.
     GetAll,
     /// Failed to get all Customers for the provided Source.
@@ -56,6 +58,7 @@ impl DomainErrorKind for CustomerErrorKind {
                     "error.domain.customer.restore.invalidSource".to_string()
                 }
             },
+            CustomerErrorKind::FindById => "error.domain.customer.findById".to_string(),
             CustomerErrorKind::GetAll => "error.domain.customer.getAll".to_string(),
             CustomerErrorKind::GetAllBySource => "error.domain.customer.getAllBySource".to_string(),
             CustomerErrorKind::InsertMany => "error.domain.customer.insertMany".to_string(),
@@ -83,6 +86,9 @@ impl DomainErrorKind for CustomerErrorKind {
                     "The provided Source is invalid.".to_string()
                 }
             },
+            CustomerErrorKind::FindById => {
+                "Failed to find a Customer with the provided ID.".to_string()
+            }
             CustomerErrorKind::GetAll => "Failed to get all Customers.".to_string(),
             CustomerErrorKind::GetAllBySource => {
                 "Failed to get all Customers for the provided Source.".to_string()

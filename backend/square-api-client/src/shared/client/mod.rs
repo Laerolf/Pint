@@ -41,7 +41,7 @@ impl SquareApiClient {
         headers.insert(CONTENT_TYPE, HeaderValue::from_static("application/json"));
         headers.insert(AUTHORIZATION, auth_header_value);
         headers.insert(
-            HeaderName::from_str(&"Square-Version").unwrap(),
+            HeaderName::from_str("Square-Version").unwrap(),
             version_header_value,
         );
         Ok(headers)
@@ -77,7 +77,7 @@ impl SquareApiClient {
             .get(self.base_url.join(path.trim_start_matches('/')).unwrap());
 
         if query.is_some() {
-            request_builder = request_builder.query(&query.unwrap());
+            request_builder = request_builder.query(&query);
         }
 
         let request = request_builder.build().map_err(|error| {

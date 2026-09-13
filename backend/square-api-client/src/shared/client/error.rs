@@ -118,7 +118,7 @@ mod tests {
             fn test_it_can_be_created() {
                 // Given
                 let expected_error_kind = ClientErrorKind::Setup;
-                let expected_cause = Error::new(ErrorKind::Other, "Test");
+                let expected_cause = Error::other("Test");
                 let expected_context_message = "Beeeeeeeeeeeeep!";
 
                 // When
@@ -161,7 +161,7 @@ mod tests {
             #[test]
             fn test_debug_format() {
                 // Given
-                let cause = Error::new(std::io::ErrorKind::Other, "boom");
+                let cause = Error::other("boom");
                 let error = SquareClientError::from(ClientErrorKind::GetRequest)
                     .with_cause(cause)
                     .with_context("status", "429");
