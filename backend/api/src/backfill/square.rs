@@ -34,7 +34,7 @@ impl<CR: CustomerRepository> SquareApiBackfillService<CR> {
             .map_err(|error| {
                 DomainError::from(BackfillErrorKind::Run)
                     .with_cause(error)
-                    .with_context("source", &Source::Square.to_string())
+                    .with_context("source", Source::Square.to_string())
             })?;
 
         let count = square_api_response.count.unwrap_or_default();
@@ -55,7 +55,7 @@ impl<CR: CustomerRepository> SquareApiBackfillService<CR> {
                 .map_err(|error| {
                     DomainError::from(BackfillErrorKind::Run)
                         .with_cause(error)
-                        .with_context("source", &Source::Square.to_string())
+                        .with_context("source", Source::Square.to_string())
                 })?;
 
             all_customers.extend(square_api_response.customers.unwrap_or_default());
@@ -115,7 +115,7 @@ impl<CR: CustomerRepository> SquareApiBackfillService<CR> {
             .map_err(|error| {
                 DomainError::from(BackfillErrorKind::Run)
                     .with_cause(error)
-                    .with_context("source", &Source::Square.to_string())
+                    .with_context("source", Source::Square.to_string())
             })?
             .into_iter()
             .filter_map(|model| model.source_id)

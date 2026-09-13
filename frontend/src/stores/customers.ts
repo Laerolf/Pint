@@ -1,7 +1,7 @@
 import { defineStore } from 'pinia'
 import { inject, reactive, ref } from 'vue'
 
-import { getAllCustomers } from '@/api/sdk.gen'
+import { findCustomerById, getAllCustomers } from '@/api/sdk.gen'
 import { apiClientKey } from '@/plugins/api'
 import { FetchActionState } from '@/shared/store'
 
@@ -16,6 +16,37 @@ export const useCustomersStore = defineStore('customers', () => {
   const customers = ref<CustomerDto[]>([])
 
   const fetchAllState = reactive<FetchActionState>(new FetchActionState())
+  const findByIdState = reactive<FetchActionState>(new FetchActionState())
+
+  /**
+   * Finds a Customer with the provided ID from the API.
+   */
+  async function findById(id: number): Promise<void> {
+    if (customers.value.some((customer) => customer.id === id)) {
+      return
+    }
+
+    findByIdState.loading = true
+
+    try {
+      const response = await findCustomerById({ client, path: { id } })
+
+      if (response.data) {
+        customers.value.push(response.data)
+      }
+    } catch (error) {
+      findByIdState.error = error
+      throw new Error(
+        `Failed to find a Customer with the provided ID from the API: ${(error as Error).message}`,
+        {
+          cause: error
+        }
+      )
+    } finally {
+      findByIdState.loading = false
+      findByIdState.lastRunAt = new Date()
+    }
+  }
 
   /**
    * Fetch all Customers from the API.
@@ -43,7 +74,9 @@ export const useCustomersStore = defineStore('customers', () => {
 
   return {
     customers,
+    findByIdState,
     fetchAllState,
+    findById,
     fetchAll
   }
 })

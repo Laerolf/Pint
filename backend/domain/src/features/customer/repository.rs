@@ -7,6 +7,13 @@ use crate::{features::customer::error::CustomerErrorKind, shared::error::DomainE
 /// Represents a repository dealing with [`Customers`][customers::Model].
 #[async_trait]
 pub trait CustomerRepository: Send + Sync {
+    /// s a [`Customer`][customers::Model] with the provided ID.
+    async fn find_by_id<C: ConnectionTrait + Sync>(
+        &self,
+        db_connection: &C,
+        id: &i32,
+    ) -> Result<Option<customers::Model>, DomainError<CustomerErrorKind>>;
+
     /// Retrieves all [`Customers`][Vec<customers::Model>].
     async fn get_all<C: ConnectionTrait + Sync>(
         &self,
@@ -17,7 +24,7 @@ pub trait CustomerRepository: Send + Sync {
     async fn get_all_by_source<C: ConnectionTrait + Sync>(
         &self,
         db_connection: &C,
-        source: &String,
+        source: &str,
     ) -> Result<Vec<customers::Model>, DomainError<CustomerErrorKind>>;
 
     /// Inserts many [`Customers`][Vec<customers::ActiveModel>].

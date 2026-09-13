@@ -2,7 +2,7 @@
 
 import type { Client, ClientMeta, Options as Options2, RequestResult, TDataShape } from './client';
 import { client } from './client.gen';
-import type { GetAllCustomersData, GetAllCustomersResponses } from './types.gen';
+import type { FindCustomerByIdData, FindCustomerByIdResponses, GetAllCustomersData, GetAllCustomersResponses } from './types.gen';
 
 export type Options<TData extends TDataShape = TDataShape, ThrowOnError extends boolean = boolean, TResponse = unknown> = Options2<TData, ThrowOnError, TResponse> & {
     /**
@@ -21,5 +21,11 @@ export type Options<TData extends TDataShape = TDataShape, ThrowOnError extends 
 export const getAllCustomers = <ThrowOnError extends boolean = false>(options?: Options<GetAllCustomersData, ThrowOnError>): RequestResult<GetAllCustomersResponses, unknown, ThrowOnError> => (options?.client ?? client).get<GetAllCustomersResponses, unknown, ThrowOnError>({
     security: [{ scheme: 'bearer', type: 'http' }],
     url: '/api/customers',
+    ...options
+});
+
+export const findCustomerById = <ThrowOnError extends boolean = false>(options: Options<FindCustomerByIdData, ThrowOnError>): RequestResult<FindCustomerByIdResponses, unknown, ThrowOnError> => (options.client ?? client).get<FindCustomerByIdResponses, unknown, ThrowOnError>({
+    security: [{ scheme: 'bearer', type: 'http' }],
+    url: '/api/customers/{id}',
     ...options
 });

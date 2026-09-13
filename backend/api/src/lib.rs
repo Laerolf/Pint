@@ -56,7 +56,7 @@ impl Api {
     /// Runs a [`Square API backfill`][SquareApiBackfillService].
     async fn run_square_api_backfill<C: ConnectionTrait, CR: CustomerRepository>(
         &self,
-        square_api_base_url: &String,
+        square_api_base_url: &str,
         square_api_token: &String,
         square_api_version: &String,
         customer_repository: CR,

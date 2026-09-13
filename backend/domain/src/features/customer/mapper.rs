@@ -33,16 +33,16 @@ impl CustomerMapper {
             .transpose()?;
 
         Customer::restore(
-            model.id.clone(),
+            model.id,
             model.first_name.clone(),
             model.last_name.clone(),
             model.nickname.clone(),
             model.email_address.clone(),
-            model.date_of_birth.clone(),
+            model.date_of_birth,
             source,
             model.source_id.clone(),
-            model.created_at.clone(),
-            model.last_updated_at.clone(),
+            model.created_at,
+            model.last_updated_at,
         )
     }
 

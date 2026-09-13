@@ -17,7 +17,7 @@ const head = useHead()
 const route = useRoute()
 
 const customersStore = useCustomersStore()
-const { customers, fetchAllState } = storeToRefs(customersStore)
+const { customers } = storeToRefs(customersStore)
 
 const schema = object({
   firstName: string().nullish(),
@@ -52,14 +52,18 @@ const form = useForm({
 
 onMounted(async () => {
   try {
-    await customersStore.fetchAll()
+    if (!route.params.id || typeof route.params.id !== 'string') {
+      throw new Error(`The provided Customer ID is invalid '${route.params.id}'.`)
+    }
 
-    let optionalSelectedCustomer = customers.value.find(
-      ({ id }) => id.toString() === route.params.id
-    )
+    const customerId: number = parseInt(route.params.id)
+
+    await customersStore.findById(customerId)
+
+    let optionalSelectedCustomer = customers.value.find(({ id }) => id === customerId)
 
     if (!optionalSelectedCustomer) {
-      throw new Error(`Failed to find the selected Customer with ID '${route.params.id}'.`)
+      throw new Error(`Failed to find the selected Customer with ID '${customerId}'.`)
     }
 
     selectedCustomer.value = optionalSelectedCustomer

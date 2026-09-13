@@ -65,3 +65,24 @@ export type GetAllCustomersResponses = {
 };
 
 export type GetAllCustomersResponse = GetAllCustomersResponses[keyof GetAllCustomersResponses];
+
+export type FindCustomerByIdData = {
+    body?: never;
+    path: {
+        /**
+         * The ID of the customer to find.
+         */
+        id: number;
+    };
+    query?: never;
+    url: '/api/customers/{id}';
+};
+
+export type FindCustomerByIdResponses = {
+    /**
+     * The customer with provided ID was found.
+     */
+    200: null | CustomerDto;
+};
+
+export type FindCustomerByIdResponse = FindCustomerByIdResponses[keyof FindCustomerByIdResponses];
