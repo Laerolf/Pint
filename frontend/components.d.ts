@@ -13,8 +13,12 @@ declare module 'vue' {
   export interface GlobalComponents {
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
+    TForm: typeof import('./src/components/global/structure/TForm.vue')['default']
     TGrid: typeof import('./src/components/global/structure/TGrid.vue')['default']
+    TInput: typeof import('./src/components/global/input/TInput.vue')['default']
+    TInputField: typeof import('./src/components/global/input/TInputField.vue')['default']
     TList: typeof import('./src/components/global/structure/TList.vue')['default']
+    TMetaField: typeof import('./src/components/global/meta/TMetaField.vue')['default']
     TPage: typeof import('./src/components/global/structure/TPage.vue')['default']
     TTable: typeof import('./src/components/global/structure/TTable.vue')['default']
   }

@@ -1,0 +1,60 @@
+{
+  "disable_ai": true,
+  "format_on_save": "on",
+  "lsp": {
+    "eslint": {
+      "enable_lsp_tasks": false
+    },
+    "rust-analyzer": {
+      "initialization_options": {
+        "check": {
+          "command": "clippy"
+        }
+      }
+    }
+  },
+  "languages": {
+    "Rust": {
+      "formatter": "language_server"
+    },
+    "JavaScript": {
+      "formatter": "language_server",
+      "language_servers": [
+        "oxfmt",
+        "oxlint",
+        "vtsls",
+        "!eslint"
+      ]
+    },
+    "TypeScript": {
+      "formatter": "language_server",
+      "language_servers": [
+        "oxfmt",
+        "oxlint",
+        "vtsls",
+        "!eslint"
+      ]
+    },
+    "TSX": {
+      "formatter": "language_server",
+      "language_servers": [
+        "oxfmt",
+        "oxlint",
+        "vtsls",
+        "!eslint"
+      ]
+    },
+    "Vue.js": {
+      "inlay_hints": {
+        "enabled": true
+      },
+      "formatter": "language_server",
+      "language_servers": [
+        "oxfmt",
+        "oxlint",
+        "vtsls",
+        "!eslint"
+      ]
+    }
+  }
+}

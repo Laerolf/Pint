@@ -1,7 +1,22 @@
+<script setup lang="ts">
+import { computed } from 'vue'
+import { useRoute } from 'vue-router'
+
+type Props = {
+  title?: string
+}
+
+const props = defineProps<Props>()
+
+const route = useRoute()
+
+const title = computed<string | undefined>(() => props.title || route.meta.title)
+</script>
+
 <template>
   <t-grid rows class="t-page">
     <t-grid class="t-page-header" rows>
-      <h1 class="t-page-title">{{ $route.meta.title }}</h1>
+      <h1 class="t-page-title">{{ title }}</h1>
 
       <t-grid v-if="$slots.actions" class="t-page-actions">
         <slot name="actions" />

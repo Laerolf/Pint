@@ -1,5 +1,7 @@
 # IDE
-.zed/
+.zed/*
+!.zed/
+!.zed/settings.json
 
 # ENVIRONMENT VARIABLES
 .env*

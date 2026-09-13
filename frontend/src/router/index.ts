@@ -21,6 +21,11 @@ const router = createRouter({
               path: '',
               component: () => import('@/pages/customers/OverviewPage.vue'),
               meta: { titleLocaleKey: 'pages.customers.overview.title', isNavigationLink: true }
+            },
+            {
+              name: 'customersDetail',
+              path: ':id',
+              component: () => import('@/pages/customers/DetailPage.vue')
             }
           ]
         }

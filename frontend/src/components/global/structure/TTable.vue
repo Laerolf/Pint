@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import { computed } from 'vue'
+
 export type TTableHeader = {
   /**
    * The label to display in the header for this column.
@@ -27,9 +29,23 @@ type Props = {
    * The amount of skeleton rows to show.
    */
   skeletonRowsToShow?: number
+  /**
+   * The table rows are clickable.
+   */
+  clickable?: boolean
 }
 
-withDefaults(defineProps<Props>(), { skeletonRowsToShow: 10 })
+const props = withDefaults(defineProps<Props>(), { skeletonRowsToShow: 10 })
+
+const emit = defineEmits<{ (event: 'row:select', index: number): void }>()
+
+const rowClasses = computed(() => ({
+  clickable: props.clickable
+}))
+
+function handleRowClick(index: number) {
+  emit('row:select', index)
+}
 </script>
 
 <template>
@@ -49,7 +65,7 @@ withDefaults(defineProps<Props>(), { skeletonRowsToShow: 10 })
     </tbody>
 
     <tbody v-else>
-      <tr v-for="item in items">
+      <tr @click="handleRowClick(index)" v-for="(item, index) in items" :class="rowClasses">
         <td v-for="header in headers">
           <slot :name="`item-${header.key}`" v-bind="{ key: header.key, item }">
             {{ item[header.key] }}
@@ -68,6 +84,12 @@ withDefaults(defineProps<Props>(), { skeletonRowsToShow: 10 })
 
   thead {
     border-bottom: var(--border-default);
+  }
+
+  tbody tr {
+    &.clickable {
+      cursor: pointer;
+    }
   }
 
   tbody tr:nth-child(even) {
