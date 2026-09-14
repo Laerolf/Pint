@@ -18,22 +18,22 @@ const { translateInScope } = useLocale('sections.meta')
 </script>
 
 <template>
-  <t-grid rows class="t-meta-section">
+  <p-grid rows class="p-meta-section">
     <h2>{{ translateInScope('title') }}</h2>
 
-    <t-grid class="t-meta-section-fields">
-      <t-meta-field
+    <p-grid class="p-meta-section-fields">
+      <p-meta-field
         v-for="field in fields"
         :meta-key="field.key"
         :meta-value="field.value"
         :key="`meta-${field.key}`"
       />
-    </t-grid>
-  </t-grid>
+    </p-grid>
+  </p-grid>
 </template>
 
 <style scoped>
-.t-meta-section {
+.p-meta-section {
   row-gap: var(--spacing-2);
   margin-top: var(--spacing-12);
   padding-top: var(--spacing-6);
@@ -45,7 +45,7 @@ const { translateInScope } = useLocale('sections.meta')
   }
 }
 
-.t-meta-section-fields {
+.p-meta-section-fields {
   column-gap: var(--spacing-4);
 }
 </style>

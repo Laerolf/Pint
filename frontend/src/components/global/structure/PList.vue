@@ -1,5 +1,5 @@
 <template>
-  <ul role="list" class="t-list">
+  <ul role="list" class="p-list">
     <slot />
   </ul>
 </template>

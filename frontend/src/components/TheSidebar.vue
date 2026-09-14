@@ -21,14 +21,14 @@ const allRoutes = computed(() =>
 </script>
 
 <template>
-  <t-grid id="the-sidebar" rows>
+  <p-grid id="the-sidebar" rows>
     <the-header />
-    <t-list>
+    <p-list>
       <li role="listitem" v-for="route in allRoutes">
         <router-link :to="route">{{ route.meta.title }}</router-link>
       </li>
-    </t-list>
-  </t-grid>
+    </p-list>
+  </p-grid>
 </template>
 
 <style scoped>

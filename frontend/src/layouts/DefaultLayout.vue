@@ -3,12 +3,12 @@ import TheSidebar from '@/components/TheSidebar.vue'
 </script>
 
 <template>
-  <t-grid id="default-layout">
+  <p-grid id="default-layout">
     <nav>
       <the-sidebar />
     </nav>
     <main><router-view /></main>
-  </t-grid>
+  </p-grid>
 </template>
 
 <style scoped>

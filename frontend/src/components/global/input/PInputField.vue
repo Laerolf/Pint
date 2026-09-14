@@ -24,7 +24,7 @@ const classes = computed(() => ({ error: !!errorMessage.value }))
 </script>
 
 <template>
-  <t-input :name="name">
+  <p-input :name="name">
     <template #label>
       <slot />
     </template>
@@ -32,7 +32,7 @@ const classes = computed(() => ({ error: !!errorMessage.value }))
     <input
       v-if="!readonly"
       v-bind="$attrs"
-      class="t-input-field"
+      class="p-input-field"
       :class="classes"
       :id="name"
       :name="name"
@@ -47,11 +47,11 @@ const classes = computed(() => ({ error: !!errorMessage.value }))
     </template>
 
     <template #error>{{ errorMessage }}</template>
-  </t-input>
+  </p-input>
 </template>
 
 <style scoped>
-.t-input-field {
+.p-input-field {
   width: var(--spacing-all);
   border: var(--border-default);
 
