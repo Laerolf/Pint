@@ -18,33 +18,33 @@ const errorMessageClasses = computed(() => ({
 </script>
 
 <template>
-  <t-grid rows class="t-input">
-    <t-grid rows class="t-input-content">
-      <label class="t-input-label" v-if="$slots.label" :for="name">
+  <p-grid rows class="p-input">
+    <p-grid rows class="p-input-content">
+      <label class="p-input-label" v-if="$slots.label" :for="name">
         <slot name="label" />
       </label>
 
-      <t-grid class="t-input-fields">
+      <p-grid class="p-input-fields">
         <slot />
         <slot name="append" />
-      </t-grid>
-    </t-grid>
+      </p-grid>
+    </p-grid>
 
-    <p class="t-input-error" :class="errorMessageClasses">
+    <p class="p-input-error" :class="errorMessageClasses">
       <slot name="error" />
     </p>
-  </t-grid>
+  </p-grid>
 </template>
 
 <style scoped>
-.t-input {
+.p-input {
   gap: var(--spacing-none);
 
-  .t-input-content {
+  .p-input-content {
     gap: var(--spacing-1);
   }
 
-  .t-input-label {
+  .p-input-label {
     font-size: var(--font-size-3);
     font-weight: var(--font-weight-2);
     color: var(--text-muted);
@@ -52,7 +52,7 @@ const errorMessageClasses = computed(() => ({
     letter-spacing: var(--letter-spacing-2);
   }
 
-  .t-input-fields {
+  .p-input-fields {
     column-gap: var(--spacing-4);
     grid-template-columns: auto max-content;
 
@@ -61,7 +61,7 @@ const errorMessageClasses = computed(() => ({
     }
   }
 
-  .t-input-error {
+  .p-input-error {
     width: var(--spacing-all);
     color: var(--color-error);
     min-height: 1lh;

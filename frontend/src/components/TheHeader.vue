@@ -1,5 +1,5 @@
 <template>
-  <t-grid id="the-header">
-    <h1>Tao</h1>
-  </t-grid>
+  <p-grid id="the-header">
+    <h1>Pint</h1>
+  </p-grid>
 </template>

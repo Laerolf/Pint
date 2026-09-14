@@ -5,7 +5,7 @@ import { useRoute } from 'vue-router'
 const route = useRoute()
 
 useHead({
-  titleTemplate: '%s | Tao',
+  titleTemplate: '%s | Pint',
   title: () => route.meta.title
 })
 </script>

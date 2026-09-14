@@ -18,7 +18,7 @@ pub mod customers;
 
 pub fn openapi() -> OpenApiDoc {
     OpenApiBuilder::new()
-        .info(InfoBuilder::new().title("TAO API").build())
+        .info(InfoBuilder::new().title("Pint API").build())
         .components(Some(
             ComponentsBuilder::new()
                 .security_scheme(

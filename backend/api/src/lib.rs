@@ -142,7 +142,7 @@ impl Api {
             .expect("Expected to create an API listener.");
 
         if let Ok(address) = listener.local_addr() {
-            println!("🌐 The Tao API is listening on http://{:?}", address);
+            println!("🌐 The Pint API is listening on http://{:?}", address);
             println!("📄 Scalar is available on http://{:?}/scalar", address);
         }
 

@@ -12,22 +12,22 @@ const { translateInScope } = useLocale('sections.meta.fields')
 </script>
 
 <template>
-  <t-grid rows class="t-meta-field">
-    <label class="t-meta-field-label">
+  <p-grid rows class="p-meta-field">
+    <label class="p-meta-field-label">
       {{ translateInScope(metaKey) }}
     </label>
 
-    <t-grid class="t-meta-field-value">
+    <p-grid class="p-meta-field-value">
       <p>{{ metaValue ?? '-' }}</p>
-    </t-grid>
-  </t-grid>
+    </p-grid>
+  </p-grid>
 </template>
 
 <style scoped>
-.t-meta-field {
+.p-meta-field {
   gap: var(--spacing-1);
 
-  .t-meta-field-label {
+  .p-meta-field-label {
     font-size: var(--font-size-3);
     font-weight: var(--font-weight-2);
     color: var(--text-muted);
@@ -35,7 +35,7 @@ const { translateInScope } = useLocale('sections.meta.fields')
     letter-spacing: var(--letter-spacing-2);
   }
 
-  .t-meta-field-value {
+  .p-meta-field-value {
     font-family: var(--font-mono);
     font-size: var(--font-size-3);
     color: var(--text-muted);

@@ -49,7 +49,7 @@ function handleRowClick(index: number) {
 </script>
 
 <template>
-  <table class="t-table">
+  <table class="p-table">
     <thead>
       <tr>
         <th v-for="header in headers">{{ header.label }}</th>
@@ -77,7 +77,7 @@ function handleRowClick(index: number) {
 </template>
 
 <style scoped>
-.t-table {
+.p-table {
   border: var(--border-default);
   border-collapse: collapse;
   width: var(--spacing-all);

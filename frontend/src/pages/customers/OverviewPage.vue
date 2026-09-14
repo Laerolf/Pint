@@ -42,14 +42,14 @@ onMounted(async () => {
 </script>
 
 <template>
-  <t-page>
-    <t-table
-      class="customers-table"
+  <p-page>
+    <p-table
+      id="customers-table"
       :headers="customersTableHeaders"
       :items="customers"
       :loading="fetchAllState.isLoading"
       clickable
       @row:select="handleCustomerSelect"
     />
-  </t-page>
+  </p-page>
 </template>

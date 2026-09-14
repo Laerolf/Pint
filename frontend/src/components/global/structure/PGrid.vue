@@ -16,13 +16,13 @@ const classes = computed(() => ({
 </script>
 
 <template>
-  <div class="t-grid" :class="classes">
+  <div class="p-grid" :class="classes">
     <slot />
   </div>
 </template>
 
 <style scoped>
-.t-grid {
+.p-grid {
   display: grid;
   /* height: var(--spacing-all); */
   width: var(--spacing-all);

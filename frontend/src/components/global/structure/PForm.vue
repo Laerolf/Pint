@@ -1,19 +1,19 @@
 <template>
-  <form class="t-form">
-    <t-grid class="content" rows>
-      <t-grid class="fields" rows>
+  <form class="p-form">
+    <p-grid class="content" rows>
+      <p-grid class="fields" rows>
         <slot />
-      </t-grid>
+      </p-grid>
 
-      <t-grid v-if="$slots.actions" class="actions">
+      <p-grid v-if="$slots.actions" class="actions">
         <slot name="actions" />
-      </t-grid>
-    </t-grid>
+      </p-grid>
+    </p-grid>
   </form>
 </template>
 
 <style scoped>
-.t-form {
+.p-form {
   width: var(--spacing-all);
 
   .content {

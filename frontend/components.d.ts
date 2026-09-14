@@ -11,6 +11,14 @@ export {}
 /* prettier-ignore */
 declare module 'vue' {
   export interface GlobalComponents {
+    PForm: typeof import('./src/components/global/structure/PForm.vue')['default']
+    PGrid: typeof import('./src/components/global/structure/PGrid.vue')['default']
+    PInput: typeof import('./src/components/global/input/PInput.vue')['default']
+    PInputField: typeof import('./src/components/global/input/PInputField.vue')['default']
+    PList: typeof import('./src/components/global/structure/PList.vue')['default']
+    PMetaField: typeof import('./src/components/global/meta/PMetaField.vue')['default']
+    PPage: typeof import('./src/components/global/structure/PPage.vue')['default']
+    PTable: typeof import('./src/components/global/structure/PTable.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
     TForm: typeof import('./src/components/global/structure/TForm.vue')['default']

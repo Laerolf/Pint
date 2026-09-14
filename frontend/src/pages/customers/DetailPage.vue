@@ -83,10 +83,10 @@ onMounted(async () => {
 </script>
 
 <template>
-  <t-page :title="title">
-    <t-grid rows>
+  <p-page :title="title">
+    <p-grid rows>
       <detail-section />
       <meta-section :fields="metaFields" />
-    </t-grid>
-  </t-page>
+    </p-grid>
+  </p-page>
 </template>
