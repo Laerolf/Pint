@@ -1,5 +1,7 @@
 use serde::Deserialize;
 
+pub mod objects;
+
 /// A Square API Error category.
 /// * [Square API: ErrorCategory](https://developer.squareup.com/reference/square/objects/ErrorCategory)
 #[derive(Deserialize, Clone)]

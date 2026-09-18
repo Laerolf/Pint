@@ -1,5 +1,7 @@
 use axum::Router;
-use infrastructure::features::customer::repository::CustomerDatabaseRepository;
+use infrastructure::features::{
+    customer::repository::CustomerDatabaseRepository, location::repository::VenueDatabaseRepository,
+};
 use sea_orm::DatabaseConnection;
 use utoipa::{
     OpenApi,
@@ -10,11 +12,15 @@ use utoipa::{
 };
 
 use crate::{
-    features::customers::endpoints::{CustomersApiDoc, Feature as CustomersFeature},
+    features::{
+        customer::endpoints::{CustomersApiDoc, Feature as CustomersFeature},
+        venue::endpoints::{Feature as VenuesFeature, VenuesApiDoc},
+    },
     shared::{ApiFeature, context::ApiContext},
 };
 
-pub mod customers;
+pub mod customer;
+pub mod venue;
 
 pub fn openapi() -> OpenApiDoc {
     OpenApiBuilder::new()
@@ -33,9 +39,13 @@ pub fn openapi() -> OpenApiDoc {
                 .build(),
         ))
         .build()
+        .merge_from(VenuesApiDoc::openapi())
         .merge_from(CustomersApiDoc::openapi())
 }
 
-pub fn routes() -> Router<ApiContext<DatabaseConnection, CustomerDatabaseRepository>> {
-    Router::new().nest("/customers", CustomersFeature::routes())
+pub fn routes()
+-> Router<ApiContext<DatabaseConnection, VenueDatabaseRepository, CustomerDatabaseRepository>> {
+    Router::new()
+        .nest("/venues", VenuesFeature::routes())
+        .nest("/customers", CustomersFeature::routes())
 }

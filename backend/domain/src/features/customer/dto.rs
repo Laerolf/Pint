@@ -3,8 +3,8 @@ use utoipa::ToSchema;
 
 use crate::{
     features::customer::{
-        domain::Customer,
         error::{CustomerErrorKind, CustomerMappingErrorKind},
+        model::Customer,
     },
     shared::{
         error::DomainError,
@@ -82,7 +82,7 @@ mod tests {
         use chrono::{NaiveDate, Utc};
 
         use crate::{
-            features::customer::{domain::Customer, dto::CustomerDto},
+            features::customer::{dto::CustomerDto, model::Customer},
             shared::Source,
         };
 

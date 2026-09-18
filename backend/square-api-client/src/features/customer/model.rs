@@ -4,7 +4,7 @@ use serde::Deserialize;
 /// * [Square API Reference](https://developer.squareup.com/reference/square_2026-08-19/objects/Customer)
 #[derive(Deserialize, Clone)]
 pub struct Customer {
-    ///A unique Square-assigned ID for the customer profile.
+    /// A unique Square-assigned ID for the customer profile.
     pub id: String,
     /// The timestamp when the customer profile was created, in RFC 3339 format.
     pub created_at: String,

@@ -5,8 +5,8 @@ use sea_orm::ActiveValue::{NotSet, Set, Unchanged};
 
 use crate::{
     features::customer::{
-        domain::Customer,
         error::{CustomerErrorKind, CustomerMappingErrorKind},
+        model::Customer,
     },
     shared::{Source, error::DomainError},
 };

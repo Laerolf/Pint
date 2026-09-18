@@ -1,7 +1,9 @@
 use chrono::{NaiveDate, NaiveDateTime};
 
 use crate::{
-    features::customer::error::{CustomerCreationErrorKind, CustomerErrorKind},
+    features::customer::error::{
+        CustomerCreationErrorKind, CustomerErrorKind, CustomerRestoreErrorKind,
+    },
     shared::{Source, error::DomainError},
 };
 
@@ -75,8 +77,8 @@ impl Customer {
         last_updated_at: Option<NaiveDateTime>,
     ) -> Result<Self, DomainError<CustomerErrorKind>> {
         if source.is_some() && source_id.is_none() {
-            return Err(DomainError::from(CustomerErrorKind::New(
-                CustomerCreationErrorKind::InvalidSource,
+            return Err(DomainError::from(CustomerErrorKind::Restore(
+                CustomerRestoreErrorKind::InvalidSource,
             )));
         }
 
@@ -152,8 +154,8 @@ mod tests {
 
         use crate::{
             features::customer::{
-                domain::Customer,
                 error::{CustomerCreationErrorKind, CustomerErrorKind},
+                model::Customer,
             },
             shared::Source,
         };
@@ -236,8 +238,8 @@ mod tests {
 
         use crate::{
             features::customer::{
-                domain::Customer,
-                error::{CustomerCreationErrorKind, CustomerErrorKind},
+                error::{CustomerErrorKind, CustomerRestoreErrorKind},
+                model::Customer,
             },
             shared::Source,
         };
@@ -307,7 +309,7 @@ mod tests {
             let expected_last_updated_at = Some(Utc::now().naive_utc());
 
             let expected_error_kind =
-                CustomerErrorKind::New(CustomerCreationErrorKind::InvalidSource);
+                CustomerErrorKind::Restore(CustomerRestoreErrorKind::InvalidSource);
 
             // When
             let customer = Customer::restore(

@@ -1,0 +1,47 @@
+{
+  "payments": [
+    {
+      "id": "ztiIETrAUHXAGxOw97DLeAOWOhNZY",
+      "created_at": "2026-09-14T12:54:17.013Z",
+      "updated_at": "2026-09-14T12:54:17.102Z",
+      "amount_money": {
+        "amount": 25,
+        "currency": "USD"
+      },
+      "status": "COMPLETED",
+      "source_type": "CASH",
+      "location_id": "LQ3Y9K6M6A6JD",
+      "order_id": "D3nTf2ScYmo7ZsvMqtCHBfy5NbRZY",
+      "customer_id": "JP8G3TBVEMCJ2D03BFYPEREQYR",
+      "total_money": {
+        "amount": 25,
+        "currency": "USD"
+      },
+      "capabilities": [
+        "EDIT_AMOUNT_UP",
+        "EDIT_AMOUNT_DOWN",
+        "EDIT_TIP_AMOUNT_UP",
+        "EDIT_TIP_AMOUNT_DOWN"
+      ],
+      "cash_details": {
+        "buyer_supplied_money": {
+          "amount": 25,
+          "currency": "USD"
+        },
+        "change_back_money": {
+          "amount": 0,
+          "currency": "USD"
+        }
+      },
+      "receipt_number": "ztiI",
+      "receipt_url": "https://squareupsandbox.com/receipt/preview/ztiIETrAUHXAGxOw97DLeAOWOhNZY",
+      "application_details": {
+        "square_product": "ECOMMERCE_API",
+        "application_id": "sandbox-sq0idb-2TDLi2Z5gf9svWNWve0w7w"
+      },
+      "version_token": "bAiK4byZxVFrXXpEHQwOHncIUgs4GUxlgmQ9MqRSKFX6o"
+    }
+  ],
+  "cursor": "faababbeeafeeelrkDxtWL47pFSnFtxEmFIqshZVH1u39HB3l8plsl78IQfy86gImdbF6iI8c9dgr1dzUEKIlgzEwPt7Bruxvjgb0pIDR3xNcvhwCohw6HvKcPnFRNnq7C1KreFSnF43mfzi5FiVnlIbjDjSOu9aIVBcEHQSMZG9mbg2EkHfoBmqEqfwHZ8VGZipyX72xPFI2ub7WEestKOzuAY1TFFpw28ykhCLtecNnIVi2bEssZN7WL9OKSHh8MIWOQoknDAFsrqXf0jN8vOOaTNHXtQncoDLdvb5Y6MnyQuUhNX7QmxaeC9tM8rA4SNl8BIxLUlkJcckoX2jG26b7X72UvUirln8qHJdZYET038JWA3aIGAGZmO98FwAqcD4lfWLrniXFgKem8hW431C28YiTuDFsuaPvreRpw8vzGhfe1bV6rqsNxxIAgYD95zRpBK7r5AjC0uSJqyEeWemIk7e6nSIZHtQUbztyHxzXVvKculAMskboONjYIE",
+  "count": 2
+}

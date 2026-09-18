@@ -39,6 +39,7 @@ impl CustomerEndpoint {
     }
 
     /// Retrieves a list of all existing Customers in the Square API.
+    /// * [Square API reference](https://developer.squareup.com/reference/square/customers-api/list-customers)
     pub async fn list_customer(
         &self,
         cursor: Option<String>,
@@ -78,7 +79,7 @@ mod tests {
             // Given
             let mock_server = MockServer::start().await;
             let customer_list_fixture =
-                fs::read_to_string("tests/fixtures/customer_list.json").unwrap();
+                fs::read_to_string("tests/fixtures/customer/customer_list.json").unwrap();
 
             Mock::given(method("GET"))
                 .and(path("/customers"))
@@ -116,7 +117,8 @@ mod tests {
             // Given
             let mock_server = MockServer::start().await;
             let customer_list_fixture =
-                fs::read_to_string("tests/fixtures/customer_list_with_cursor.json").unwrap();
+                fs::read_to_string("tests/fixtures/customer/customer_list_with_cursor.json")
+                    .unwrap();
 
             Mock::given(method("GET"))
                 .and(path("/customers"))

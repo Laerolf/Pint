@@ -2,7 +2,7 @@ use sea_orm::ConnectionTrait;
 
 use crate::{
     features::customer::{
-        domain::Customer, error::CustomerErrorKind, mapper::CustomerMapper,
+        error::CustomerErrorKind, mapper::CustomerMapper, model::Customer,
         repository::CustomerRepository,
     },
     shared::error::DomainError,

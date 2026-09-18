@@ -1,16 +1,20 @@
 use std::sync::Arc;
 
 use axum::{Json, Router, http::HeaderValue, routing::get, serve};
-use domain::features::customer::repository::CustomerRepository;
-use infrastructure::features::customer::repository::CustomerDatabaseRepository;
+use domain::features::{
+    customer::repository::CustomerRepository, venue::repository::VenueRepository,
+};
+use infrastructure::features::{
+    customer::repository::CustomerDatabaseRepository, location::repository::VenueDatabaseRepository,
+};
 use migration::{Migrator, MigratorTrait};
 use reqwest::{
     Method, Url,
     header::{ACCEPT, AUTHORIZATION, CONTENT_TYPE},
 };
-use sea_orm::{ConnectOptions, ConnectionTrait, Database, DatabaseConnection};
+use sea_orm::{ConnectOptions, ConnectionTrait, Database, DatabaseConnection, TransactionTrait};
 use square_api_client::{
-    features::customer::CustomerEndpoint,
+    features::{customer::CustomerEndpoint, location::LocationEndpoint},
     shared::client::{SquareApiClient, SquareApiClientOptions},
 };
 use tokio::net::TcpListener;
@@ -28,6 +32,7 @@ pub mod backfill;
 pub mod features;
 pub mod shared;
 
+/// Returns the OpenAPI documentation.
 async fn openapi_json() -> Json<OpenApi> {
     Json(openapi())
 }
@@ -54,11 +59,16 @@ impl Api {
     }
 
     /// Runs a [`Square API backfill`][SquareApiBackfillService].
-    async fn run_square_api_backfill<C: ConnectionTrait, CR: CustomerRepository>(
+    async fn run_square_api_backfill<
+        C: ConnectionTrait,
+        VR: VenueRepository,
+        CR: CustomerRepository,
+    >(
         &self,
         square_api_base_url: &str,
         square_api_token: &String,
         square_api_version: &String,
+        venue_repository: VR,
         customer_repository: CR,
         db_connection: &C,
     ) -> Result<(), StartupError> {
@@ -70,18 +80,28 @@ impl Api {
         })
         .map_err(|_error| StartupError::CreateSquareApiClient)?;
 
+        let square_location_endpoint = LocationEndpoint::new(square_api_client.clone());
         let square_customer_endpoint = CustomerEndpoint::new(square_api_client);
 
-        SquareApiBackfillService::new(customer_repository, square_customer_endpoint)
-            .run(db_connection)
-            .await
-            .map_err(|_error| StartupError::CreateSquareApiClient)
+        SquareApiBackfillService::new(
+            venue_repository,
+            customer_repository,
+            square_location_endpoint,
+            square_customer_endpoint,
+        )
+        .run(db_connection)
+        .await
+        .map_err(|_error| StartupError::CreateSquareApiClient)
     }
 
     /// Creates a new [`Router`].
     pub fn create_router(
         &self,
-        context: ApiContext<DatabaseConnection, CustomerDatabaseRepository>,
+        context: ApiContext<
+            DatabaseConnection,
+            VenueDatabaseRepository,
+            CustomerDatabaseRepository,
+        >,
         cors_allow_origin: &String,
     ) -> Router {
         // TODO: Adjust accordingly
@@ -117,20 +137,37 @@ impl Api {
             .await
             .map_err(|_error| StartupError::DatabaseMigration)?;
 
-        let customer_repository = CustomerDatabaseRepository::default();
+        let square_api_backfill_db_transaction = db_connection
+            .begin()
+            .await
+            .map_err(|_error| StartupError::RunSquareApiBackfill)?;
 
-        self.run_square_api_backfill(
-            environment.square_api_base_url(),
-            environment.square_api_token(),
-            environment.square_api_version(),
-            customer_repository,
-            &db_connection,
-        )
-        .await?;
+        let square_api_backfill_result = self
+            .run_square_api_backfill(
+                environment.square_api_base_url(),
+                environment.square_api_token(),
+                environment.square_api_version(),
+                VenueDatabaseRepository,
+                CustomerDatabaseRepository,
+                &square_api_backfill_db_transaction,
+            )
+            .await;
+
+        match square_api_backfill_result {
+            Ok(_value) => square_api_backfill_db_transaction
+                .commit()
+                .await
+                .map_err(|_error| StartupError::RunSquareApiBackfill)?,
+            Err(_error) => square_api_backfill_db_transaction
+                .rollback()
+                .await
+                .map_err(|_error| StartupError::RunSquareApiBackfill)?,
+        }
 
         let context = ApiContext::new(
             Arc::new(db_connection),
-            CustomerDatabaseRepository::default(),
+            VenueDatabaseRepository,
+            CustomerDatabaseRepository,
         );
 
         let router = self.create_router(context, environment.cors_allow_origin());

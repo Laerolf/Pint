@@ -21,6 +21,7 @@ pub struct SquareApiClientOptions {
 }
 
 /// Represents a Square API client.
+#[derive(Clone)]
 pub struct SquareApiClient {
     base_url: Url,
     client: Client,

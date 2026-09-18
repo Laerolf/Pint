@@ -7,7 +7,9 @@ use domain::{
     features::customer::{dto::CustomerDto, error::CustomerErrorKind},
     shared::error::DomainError,
 };
-use infrastructure::features::customer::repository::CustomerDatabaseRepository;
+use infrastructure::features::{
+    customer::repository::CustomerDatabaseRepository, location::repository::VenueDatabaseRepository,
+};
 use sea_orm::DatabaseConnection;
 use utoipa::OpenApi;
 
@@ -16,7 +18,9 @@ use crate::shared::{ApiFeature, context::ApiContext, error::AppError};
 pub struct Feature;
 
 impl ApiFeature for Feature {
-    fn routes() -> Router<ApiContext<DatabaseConnection, CustomerDatabaseRepository>> {
+    fn routes()
+    -> Router<ApiContext<DatabaseConnection, VenueDatabaseRepository, CustomerDatabaseRepository>>
+    {
         Router::new()
             .route("/{id}", get(find_customer_by_id))
             .route("/", get(get_all_customers))
@@ -44,7 +48,9 @@ pub struct CustomersApiDoc;
     tag = "Customers"
 )]
 async fn find_customer_by_id(
-    State(context): State<ApiContext<DatabaseConnection, CustomerDatabaseRepository>>,
+    State(context): State<
+        ApiContext<DatabaseConnection, VenueDatabaseRepository, CustomerDatabaseRepository>,
+    >,
     Path(id): Path<i32>,
 ) -> Result<Json<Option<CustomerDto>>, AppError> {
     let optional_customer = context
@@ -68,7 +74,9 @@ async fn find_customer_by_id(
     tag = "Customers"
 )]
 async fn get_all_customers(
-    State(context): State<ApiContext<DatabaseConnection, CustomerDatabaseRepository>>,
+    State(context): State<
+        ApiContext<DatabaseConnection, VenueDatabaseRepository, CustomerDatabaseRepository>,
+    >,
 ) -> Result<Json<Vec<CustomerDto>>, AppError> {
     let all_customers = context
         .customer_query_service()
@@ -115,7 +123,11 @@ mod tests {
                 }]])
                 .into_connection();
 
-            let context = ApiContext::new(Arc::new(db_connection), CustomerDatabaseRepository);
+            let context = ApiContext::new(
+                Arc::new(db_connection),
+                VenueDatabaseRepository,
+                CustomerDatabaseRepository,
+            );
 
             let router = Feature::routes().with_state(context);
 
@@ -143,7 +155,11 @@ mod tests {
                 .append_query_errors([DbErr::Custom("Test".to_string())])
                 .into_connection();
 
-            let context = ApiContext::new(Arc::new(db_connection), CustomerDatabaseRepository);
+            let context = ApiContext::new(
+                Arc::new(db_connection),
+                VenueDatabaseRepository,
+                CustomerDatabaseRepository,
+            );
 
             let router = Feature::routes().with_state(context);
 
@@ -164,7 +180,11 @@ mod tests {
                 .append_query_results([Vec::<customers::Model>::new()])
                 .into_connection();
 
-            let context = ApiContext::new(Arc::new(db_connection), CustomerDatabaseRepository);
+            let context = ApiContext::new(
+                Arc::new(db_connection),
+                VenueDatabaseRepository,
+                CustomerDatabaseRepository,
+            );
 
             let router = Feature::routes().with_state(context);
 
@@ -217,7 +237,11 @@ mod tests {
                 }]])
                 .into_connection();
 
-            let context = ApiContext::new(Arc::new(db_connection), CustomerDatabaseRepository);
+            let context = ApiContext::new(
+                Arc::new(db_connection),
+                VenueDatabaseRepository,
+                CustomerDatabaseRepository,
+            );
 
             let router = Feature::routes().with_state(context);
 
@@ -245,7 +269,11 @@ mod tests {
                 .append_query_errors([DbErr::Custom("Test".to_string())])
                 .into_connection();
 
-            let context = ApiContext::new(Arc::new(db_connection), CustomerDatabaseRepository);
+            let context = ApiContext::new(
+                Arc::new(db_connection),
+                VenueDatabaseRepository,
+                CustomerDatabaseRepository,
+            );
 
             let router = Feature::routes().with_state(context);
 
@@ -266,7 +294,11 @@ mod tests {
                 .append_query_results([Vec::<customers::Model>::new()])
                 .into_connection();
 
-            let context = ApiContext::new(Arc::new(db_connection), CustomerDatabaseRepository);
+            let context = ApiContext::new(
+                Arc::new(db_connection),
+                VenueDatabaseRepository,
+                CustomerDatabaseRepository,
+            );
 
             let router = Feature::routes().with_state(context);
 

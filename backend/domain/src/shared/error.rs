@@ -99,7 +99,7 @@ mod tests {
                 // Given
                 let expected_error_kind =
                     CustomerErrorKind::New(CustomerCreationErrorKind::InvalidSource);
-                let expected_cause = Error::new(ErrorKind::Other, "Test");
+                let expected_cause = Error::other("Test");
                 let expected_context_message = "Beeeeeeeeeeeeep!";
 
                 // When
@@ -138,7 +138,7 @@ mod tests {
             #[test]
             fn test_debug_format() {
                 // Given
-                let cause = Error::new(std::io::ErrorKind::Other, "boom");
+                let cause = Error::other("boom");
                 let error = DomainError::from(CustomerErrorKind::New(
                     CustomerCreationErrorKind::InvalidSource,
                 ))
